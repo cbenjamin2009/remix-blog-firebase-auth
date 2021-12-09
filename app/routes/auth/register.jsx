@@ -1,19 +1,12 @@
 import { auth } from "~/utils/firebase"
 import { createUserWithEmailAndPassword } from "@firebase/auth";
 import { redirect, Form, useActionData, Link, json } from "remix";
-import authStyles from "~/styles/auth.css";
 import { getSession, commitSession } from "~/sessions.server";
-
+import authStyles from "~/styles/auth.css";
 
 //create a stylesheet ref for the auth.css file 
 export let links = () => {
     return [{rel: "stylesheet", href: authStyles}]
-}
-
-export let loader = () => {
-    let data = {}
-
-    return json(data)
 }
 // This will be the same as our Sign In but it will say Register and use createUser instead of signIn 
 
@@ -26,13 +19,12 @@ export let loader = () => {
         await auth.signOut();
 
         //setup user data 
-     
         let {session: sessionData, user, error: signUpError} =  await createUserWithEmailAndPassword(auth, email, password)
 
         if (!signUpError){
             let session = await getSession(request.headers.get("Cookie"))
             session.set("access_token", auth.currentUser.access_token)
-            return redirect("/",{
+            return redirect("/blogs",{
                 headers: {
                     "Set-Cookie": await commitSession(session),
                 }

@@ -15,11 +15,10 @@ export let links = () => {
 
         // perform firebase send password reset email 
         try{
-        await sendPasswordResetEmail(auth, email)
-            alert("If your email address matched an account, you will be sent a reset link")
+            await sendPasswordResetEmail(auth, email)
         }
         catch (err) {
-            alert("Error: ", err.message)
+          console.log("Error: ", err.message)
         }
         // success, send user to /login page
         return redirect('/login')

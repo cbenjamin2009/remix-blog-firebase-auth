@@ -71,7 +71,7 @@ export async function updatePost(post){
     //Prisma connection 
     await prisma.$connect()
     // prisma create
-    //console.log('updatePost id', post.id)
+    console.log('updatePost id', post.id)
     await prisma.posts.update({
         where: {
             id: post.id
@@ -91,7 +91,6 @@ export async function updatePost(post){
 
 export async function deletePost(post){
     await prisma.$connect()
-   // console.log(post.id)
     await prisma.posts.delete({
         where: {
         id: post

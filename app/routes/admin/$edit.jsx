@@ -1,7 +1,6 @@
 import invariant from 'tiny-invariant';
-import { getPostEdit, deletePost } from "~/post";
+import { getPostEdit, updatePost, deletePost } from "~/post";
 import { redirect, Form, useActionData, useTransition, useLoaderData } from "remix";
-import { updatePost } from "~/post";
 
 
 export let loader = async({params}) => {
@@ -13,7 +12,7 @@ export let loader = async({params}) => {
 export let action = async ({ request }) => {
 
     let formData = await request.formData();
-    console.log(request)
+ 
     let title = formData.get("title");
     let slug = formData.get("slug")
     let markdown = formData.get("markdown")
@@ -31,13 +30,7 @@ export let action = async ({ request }) => {
     if (Object.keys(errors).length) {
         return errors;
     }
-
-
-    
-        console.log('calling updatePost with id, title, slug, markdown: ', id, title, slug, markdown)
         await updatePost({id, title, slug, markdown});
-    
-
     return redirect("/admin")
 }
 

@@ -17,7 +17,6 @@
     display: none;
 }
 
-
 .adminNewPostButton{
     margin-top: 2em;
     background-color: royalblue;
@@ -25,8 +24,6 @@
     border-radius: 10px;
     padding: 1em;
 }
-
-
 
 .adminTitle {
     font-size: x-large;
@@ -45,10 +42,8 @@
 
 .deleteButton{
     background-color: rgb(158, 3, 3);
-
 }
 
 .updateButton{
     background-color: rgb(2, 5, 180);
-
 }

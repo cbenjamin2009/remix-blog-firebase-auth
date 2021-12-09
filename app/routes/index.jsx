@@ -2,52 +2,13 @@ import { useLoaderData, json, Link,  redirect} from "remix";
 import { auth } from "~/utils/firebase"
 import { getSession } from "~/sessions.server";
 import { destroySession, commitSession } from "~/sessions.server";
-import { signInWithCredential, signInWithCustomToken } from "@firebase/auth";
-
-
-// Loaders provide data to components and are only ever called on the server, so
-// you can connect to a database or run any server side code you want right next
-// to the component that renders it.
-// https://remix.run/api/conventions#loader
-// export let loader = async ({request}) => {
-//   const redirectTo = new URL(request.url).pathname;
-
-//   let session = await getSession(request.headers.get("Cookie"))
-
-  
-//   if (!session.has("access_token")){
-//     let searchParams = new URLSearchParams([["redirectTo", redirectTo]])
-//     throw redirect(`/login?${searchParams}`)
-//   } else {
-
-//     // check for access token
-//   const { user, error: sessionErr} = await auth.currentUser;
-//     // if there isn't an error, then let's assume we have an access_token and we can update the logged in user to be the current session 
-//   if (!sessionErr){
-//     //auth.updateCurrentUser(session.get("access_token"));
-//    // commitSession(session)
-//    // signInWithCustomToken(auth, session.get("access_token"))
-//    auth.onAuthStateChanged(async (user) => {
-//     session.set("access_token", await user.getIdToken())
-//    })
-//   }
-// return {user, sessionErr}
-//   }
-//   // if (!auth.currentUser) {
-//   //     currentUser = 'friend'
-//   //   }
-//   // else {
-//   //   currentUser = auth.currentUser.email
-//   // }
-//   //   return currentUser;
-// }
 
 // use loader to check for existing session 
 export async function loader({ request }) {
   const session = await getSession(
     request.headers.get("Cookie")
   );
-  console.log(session.has("access_token"))
+  // console.log(session.has("access_token"))
 
   if (session.has("access_token")) {
 
@@ -93,8 +54,8 @@ export default function Index() {
       <aside>
       <h3>Tutorial Links</h3>
       <ul>
-        <li>Github</li>
-        <li>Tutorial</li>
+        <li><a href="https://github.com/cbenjamin2009/remix-blog-firebase-auth" target="_blank">Github</a></li>
+        <li><a href="https://dev.to/chrisbenjamin" target="_blank">Tutorial</a></li>
       </ul>
       </aside>
     </div>
