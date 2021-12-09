@@ -17,6 +17,7 @@
     display: none;
 }
 
+
 .adminNewPostButton{
     margin-top: 2em;
     background-color: royalblue;
@@ -25,6 +26,8 @@
     padding: 1em;
 }
 
+
+
 .adminTitle {
     font-size: x-large;
     color: crimson;
@@ -32,18 +35,4 @@
 
 .remix-app__header{
     background-color: rgb(141, 20, 20);
-}
-
-.adminButton{
-    color: white;
-    padding: 1em;
-    border-radius: 2em;
-}
-
-.deleteButton{
-    background-color: rgb(158, 3, 3);
-}
-
-.updateButton{
-    background-color: rgb(2, 5, 180);
 }

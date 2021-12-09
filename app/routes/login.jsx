@@ -8,7 +8,6 @@ import authStyles from "~/styles/auth.css";
 export let links = () => {
     return [{rel: "stylesheet", href: authStyles}]
 }
-
 // use loader to check for existing session, if found, send the user to the blogs site
 export async function loader({ request }) {
     const session = await getSession(
@@ -43,8 +42,8 @@ export async function loader({ request }) {
                 // let's setup the session and cookie wth users idToken
                 let session = await getSession(request.headers.get("Cookie"))
                 session.set("access_token", await user.getIdToken())
-                // let's send the user to the blogs after login
-                return redirect("/blogs", {
+                // let's send the user to the main page after login
+                return redirect("/", {
                     headers: {
                         "Set-Cookie": await commitSession(session),
                     }

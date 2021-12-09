@@ -1,6 +1,7 @@
 import { redirect } from "remix";
 import { getSession } from "~/sessions.server";
 import { destroySession } from "~/sessions.server";
+import { auth } from "~/utils/firebase";
 
 // when this page loads we are going to get the session, if we find one then we are going to destroySession to remove the cookie
 export let loader = async({request}) => {
@@ -9,7 +10,7 @@ export let loader = async({request}) => {
     );
   
     if (session.has("access_token")) {
-    return redirect("/login", {
+    return redirect("/", {
       headers: {"Set-Cookie": await destroySession(session)}
     })
   }

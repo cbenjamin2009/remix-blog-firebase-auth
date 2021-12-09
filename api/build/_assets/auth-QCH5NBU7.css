@@ -1,4 +1,4 @@
-/* Used for styling the Auth pages (Login, Register, Forgot) */
+* Used for styling the Auth pages (Login, Register, Forgot) */
 .loginContainer{
     margin-top: 1em;
     display: flex;

@@ -1,7 +1,9 @@
-import { Outlet, Link, useLoaderData, redirect } from 'remix';
-import { auth } from '~/utils/firebase';
-import { getPosts, deletePost } from "~/post";
+import { Outlet, Link, useLoaderData, redirect, json } from 'remix';
+import { getPosts } from "~/post";
 import adminStyles from "~/styles/admin.css";
+import { getSession } from '~/sessions.server';
+import { commitSession } from '~/sessions.server';
+
 
 //create a stylesheet ref for the admin.css file 
 export let links = () => {
@@ -29,12 +31,6 @@ export async function loader({ request }) {
 
 }
 
-// this function will delete the associated postId and redirect to blogs 
-export async function deleteThisPost(postId){
-     await deletePost(postId)
-     return redirect("/blogs")
-    }
-
 export default function Admin() {
     let posts = useLoaderData();
     return (
@@ -47,7 +43,7 @@ export default function Admin() {
                 <ul>
                     {posts.map(post => (
                         <li key={post.slug}>
-                        <Link to={post.slug}>{post.title}</Link> 
+                        <Link to={post.slug}>{post.title}</Link>
                         </li>
                     ))}
                 </ul>

@@ -6,7 +6,6 @@ import { commitSession } from '~/sessions.server';
 export let links = () => {
     return [{rel: "stylesheet", href: postStyles}]
 }
-
 // on load remix will check to see if the user is logged in, if not it will send them to login page to prevent unauthorized access
 // if the user is found it will getPosts() and render correctly. 
 export async function loader({ request }) {
