@@ -1,0 +1,254 @@
+{
+  "version": "d367c091",
+  "entry": {
+    "module": "/build/entry.client-EVXJGM53.js",
+    "imports": [
+      "/build/_shared/chunk-RY2STIRE.js",
+      "/build/_shared/chunk-GUACUXYP.js",
+      "/build/_shared/chunk-AKSB5QXU.js"
+    ]
+  },
+  "routes": {
+    "root": {
+      "id": "root",
+      "path": "",
+      "module": "/build/root-75PZILND.js",
+      "imports": [
+        "/build/_shared/chunk-ATCWGBU5.js"
+      ],
+      "hasAction": false,
+      "hasLoader": true,
+      "hasCatchBoundary": true,
+      "hasErrorBoundary": true
+    },
+    "routes/admin": {
+      "id": "routes/admin",
+      "parentId": "root",
+      "path": "admin",
+      "module": "/build/routes/admin-Q7JPS5HQ.js",
+      "imports": [
+        "/build/_shared/chunk-WXO3EHD5.js"
+      ],
+      "hasAction": false,
+      "hasLoader": true,
+      "hasCatchBoundary": false,
+      "hasErrorBoundary": false
+    },
+    "routes/admin/$edit": {
+      "id": "routes/admin/$edit",
+      "parentId": "routes/admin",
+      "path": ":edit",
+      "module": "/build/routes/admin/$edit-NUXIAMXX.js",
+      "imports": [
+        "/build/_shared/chunk-ATCWGBU5.js"
+      ],
+      "hasAction": true,
+      "hasLoader": true,
+      "hasCatchBoundary": false,
+      "hasErrorBoundary": false
+    },
+    "routes/admin/index": {
+      "id": "routes/admin/index",
+      "parentId": "routes/admin",
+      "index": true,
+      "module": "/build/routes/admin/index-R522LQUZ.js",
+      "hasAction": false,
+      "hasLoader": false,
+      "hasCatchBoundary": false,
+      "hasErrorBoundary": false
+    },
+    "routes/admin/new": {
+      "id": "routes/admin/new",
+      "parentId": "routes/admin",
+      "path": "new",
+      "module": "/build/routes/admin/new-LZ4UVA4F.js",
+      "imports": [
+        "/build/_shared/chunk-ATCWGBU5.js"
+      ],
+      "hasAction": true,
+      "hasLoader": false,
+      "hasCatchBoundary": false,
+      "hasErrorBoundary": false
+    },
+    "routes/auth/forgot": {
+      "id": "routes/auth/forgot",
+      "parentId": "root",
+      "path": "auth/forgot",
+      "module": "/build/routes/auth/forgot-QZNURPT5.js",
+      "imports": [
+        "/build/_shared/chunk-NYTW4GIU.js"
+      ],
+      "hasAction": true,
+      "hasLoader": false,
+      "hasCatchBoundary": false,
+      "hasErrorBoundary": false
+    },
+    "routes/auth/logout": {
+      "id": "routes/auth/logout",
+      "parentId": "root",
+      "path": "auth/logout",
+      "module": "/build/routes/auth/logout-LXUVIJLM.js",
+      "imports": [
+        "/build/_shared/chunk-WXO3EHD5.js"
+      ],
+      "hasAction": false,
+      "hasLoader": true,
+      "hasCatchBoundary": false,
+      "hasErrorBoundary": false
+    },
+    "routes/auth/register": {
+      "id": "routes/auth/register",
+      "parentId": "root",
+      "path": "auth/register",
+      "module": "/build/routes/auth/register-A3MWASF5.js",
+      "imports": [
+        "/build/_shared/chunk-NYTW4GIU.js",
+        "/build/_shared/chunk-WXO3EHD5.js"
+      ],
+      "hasAction": true,
+      "hasLoader": false,
+      "hasCatchBoundary": false,
+      "hasErrorBoundary": false
+    },
+    "routes/blogs/$slug": {
+      "id": "routes/blogs/$slug",
+      "parentId": "root",
+      "path": "blogs/:slug",
+      "module": "/build/routes/blogs/$slug-WUCUSEYL.js",
+      "imports": [
+        "/build/_shared/chunk-GH2VOXO4.js",
+        "/build/_shared/chunk-WXO3EHD5.js"
+      ],
+      "hasAction": false,
+      "hasLoader": true,
+      "hasCatchBoundary": false,
+      "hasErrorBoundary": false
+    },
+    "routes/blogs/index": {
+      "id": "routes/blogs/index",
+      "parentId": "root",
+      "path": "blogs",
+      "index": true,
+      "module": "/build/routes/blogs/index-37XV4CMA.js",
+      "imports": [
+        "/build/_shared/chunk-GH2VOXO4.js",
+        "/build/_shared/chunk-WXO3EHD5.js"
+      ],
+      "hasAction": false,
+      "hasLoader": true,
+      "hasCatchBoundary": false,
+      "hasErrorBoundary": false
+    },
+    "routes/demos/about": {
+      "id": "routes/demos/about",
+      "parentId": "root",
+      "path": "demos/about",
+      "module": "/build/routes/demos/about-VFHIXG2Z.js",
+      "hasAction": false,
+      "hasLoader": false,
+      "hasCatchBoundary": false,
+      "hasErrorBoundary": false
+    },
+    "routes/demos/about/index": {
+      "id": "routes/demos/about/index",
+      "parentId": "routes/demos/about",
+      "index": true,
+      "module": "/build/routes/demos/about/index-HTM4YKCJ.js",
+      "hasAction": false,
+      "hasLoader": false,
+      "hasCatchBoundary": false,
+      "hasErrorBoundary": false
+    },
+    "routes/demos/about/whoa": {
+      "id": "routes/demos/about/whoa",
+      "parentId": "routes/demos/about",
+      "path": "whoa",
+      "module": "/build/routes/demos/about/whoa-7PNVHNHU.js",
+      "hasAction": false,
+      "hasLoader": false,
+      "hasCatchBoundary": false,
+      "hasErrorBoundary": false
+    },
+    "routes/demos/actions": {
+      "id": "routes/demos/actions",
+      "parentId": "root",
+      "path": "demos/actions",
+      "module": "/build/routes/demos/actions-L26CY6DE.js",
+      "hasAction": true,
+      "hasLoader": false,
+      "hasCatchBoundary": false,
+      "hasErrorBoundary": false
+    },
+    "routes/demos/correct": {
+      "id": "routes/demos/correct",
+      "parentId": "root",
+      "path": "demos/correct",
+      "module": "/build/routes/demos/correct-XW4CKPXQ.js",
+      "hasAction": false,
+      "hasLoader": false,
+      "hasCatchBoundary": false,
+      "hasErrorBoundary": false
+    },
+    "routes/demos/params": {
+      "id": "routes/demos/params",
+      "parentId": "root",
+      "path": "demos/params",
+      "module": "/build/routes/demos/params-E7PMWE5P.js",
+      "hasAction": false,
+      "hasLoader": false,
+      "hasCatchBoundary": false,
+      "hasErrorBoundary": false
+    },
+    "routes/demos/params/$id": {
+      "id": "routes/demos/params/$id",
+      "parentId": "routes/demos/params",
+      "path": ":id",
+      "module": "/build/routes/demos/params/$id-FZTNUB5R.js",
+      "imports": [
+        "/build/_shared/chunk-ATCWGBU5.js"
+      ],
+      "hasAction": false,
+      "hasLoader": true,
+      "hasCatchBoundary": true,
+      "hasErrorBoundary": true
+    },
+    "routes/demos/params/index": {
+      "id": "routes/demos/params/index",
+      "parentId": "routes/demos/params",
+      "index": true,
+      "module": "/build/routes/demos/params/index-EIZP6NPI.js",
+      "hasAction": false,
+      "hasLoader": false,
+      "hasCatchBoundary": false,
+      "hasErrorBoundary": false
+    },
+    "routes/index": {
+      "id": "routes/index",
+      "parentId": "root",
+      "index": true,
+      "module": "/build/routes/index-DURAFLCT.js",
+      "imports": [
+        "/build/_shared/chunk-WXO3EHD5.js"
+      ],
+      "hasAction": true,
+      "hasLoader": true,
+      "hasCatchBoundary": false,
+      "hasErrorBoundary": false
+    },
+    "routes/login": {
+      "id": "routes/login",
+      "parentId": "root",
+      "path": "login",
+      "module": "/build/routes/login-AOBKD73B.js",
+      "imports": [
+        "/build/_shared/chunk-NYTW4GIU.js",
+        "/build/_shared/chunk-WXO3EHD5.js"
+      ],
+      "hasAction": true,
+      "hasLoader": true,
+      "hasCatchBoundary": false,
+      "hasErrorBoundary": false
+    }
+  },
+  "url": "/build/manifest-D367C091.js"
+}

@@ -1,0 +1,55 @@
+/* Used for styling the Auth pages (Login, Register, Forgot) */
+.loginContainer{
+    margin-top: 1em;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: 3em;
+    background-color: rgba(0, 0, 0, 0.301);
+    border-radius: 10px;
+}
+
+.loginContainer h1 {
+    margin-bottom: 2em;
+}
+
+.loginContainer label {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.loginContainer form {
+    display: flex;
+    flex-direction: column;
+}
+
+.loginInput{
+    padding: .5em;
+    font-size: 1.5em;
+    margin: 1em;
+    border-radius: 1em;
+    border: none;
+}
+
+.loginButton {
+    padding: .2em;
+    font-size: 2em;
+    border-radius: 1em;
+    width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2em;
+    cursor: pointer;
+    background-color: rgba(47, 120, 255, 0.733);
+}
+
+.loginButton:hover{
+    border: 2px dashed skyblue;
+    background-color: rgba(47, 120, 255, 0.9);
+}
+
+.additionalLinks{
+    display: flex;
+    justify-content: space-evenly;
+    font-size: x-large;
+}
