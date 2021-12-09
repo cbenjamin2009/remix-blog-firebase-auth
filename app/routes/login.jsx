@@ -35,7 +35,7 @@ export async function loader({ request }) {
         let formData = await request.formData();
         let email = formData.get("email");
         let password = formData.get("password")
-       return auth.setPersistence('session').then(async () => {
+       return auth.setPersistence('local').then(async () => {
             const {user, error} = await signInWithEmailAndPassword(auth, email, password)
             // if signin was successful then we have a user
             if ( user ) {
