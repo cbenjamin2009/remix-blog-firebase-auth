@@ -35,7 +35,6 @@ export async function loader({ request }) {
         let formData = await request.formData();
         let email = formData.get("email");
         let password = formData.get("password")
-       return auth.setPersistence('local').then(async () => {
             const {user, error} = await signInWithEmailAndPassword(auth, email, password)
             // if signin was successful then we have a user
             if ( user ) {
@@ -43,14 +42,13 @@ export async function loader({ request }) {
                 let session = await getSession(request.headers.get("Cookie"))
                 session.set("access_token", await user.getIdToken())
                 // let's send the user to the main page after login
-                return redirect("/", {
+                return redirect("/admin", {
                     headers: {
                         "Set-Cookie": await commitSession(session),
                     }
                 })
             }
             return { user, error}
-        })
         }
 
     export default function Login(){

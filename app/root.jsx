@@ -44,6 +44,7 @@ export async function loader({ request }) {
     }
   });
 } else {
+
   return null;
 }
 }
@@ -137,10 +138,12 @@ function Document({ children, title }) {
 }
 
 function Layout({ children }) {
+
   // let's grab our loader data to see if it's a sessioned user
   let data = useLoaderData();
   // let's check to see if we have a user, if so we will use it to update the greeting and link logic for Login/Logout in Nav
   let loggedIn = data?.user
+
   return (
     <div className="remix-app">
       <header className="remix-app__header">
