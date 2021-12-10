@@ -9,23 +9,8 @@ export let links = () => {
     return [{rel: "stylesheet", href: postStyles}]
 }
 
-export let loader = async({params, request}) => {
-    const session = await getSession(
-        request.headers.get("Cookie")
-      );
-  
-      if (!session.has("access_token")) {
-        return redirect("/login");
-      } 
-    
-      const data = { error: session.get("error") };
-      invariant(params.slug, "expected params.slug");
-
-      return json(data, {
-        headers: {
-          "Set-Cookie": await commitSession(session)
-        }
-      }), getPost(params.slug);
+export let loader = ({params}) => {
+    return getPost(params.slug);
     
 }
 

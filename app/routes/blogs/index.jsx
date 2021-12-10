@@ -8,22 +8,8 @@ export let links = () => {
 }
 // on load remix will check to see if the user is logged in, if not it will send them to login page to prevent unauthorized access
 // if the user is found it will getPosts() and render correctly. 
-export async function loader({ request }) {
-    const session = await getSession(
-      request.headers.get("Cookie")
-    );
-
-    if (!session.has("access_token")) {
-      return redirect("/login");
-    } 
-  
-    const data = { error: session.get("error") };
-  
-    return json(data, {
-      headers: {
-        "Set-Cookie": await commitSession(session)
-      }
-    }), getPosts();
+export let loader = () => {
+    return getPosts();
 
 }
 

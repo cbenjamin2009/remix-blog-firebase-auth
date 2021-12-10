@@ -14,5 +14,6 @@ export let loader = async({request}) => {
       headers: {"Set-Cookie": await destroySession(session)}
     })
   }
+  auth.signOut();
   return redirect('/')
 }

@@ -18,19 +18,10 @@ export async function loader({ request }) {
       "Set-Cookie": await commitSession(session)
     }
   });
-} else {
-  return null;
-}
+} 
+return null;
 }
 
-
-export let action = async ({request}) => {
-  let session = await getSession(request.headers.get("Cookie"))
-
-  return redirect("/login", {
-    headers: {"Set-Cookie": await destroySession(session)}
-  })
-}
 
 // https://remix.run/api/conventions#meta
 export let meta = () => {
