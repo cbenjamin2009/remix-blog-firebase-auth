@@ -1,4 +1,5 @@
 import {
+  Form,
   Link,
   Links,
   LiveReload,
@@ -6,7 +7,8 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useCatch
+  useCatch,
+  redirect
 } from "remix";
 
 import globalStylesUrl from "~/styles/global.css";
@@ -14,7 +16,7 @@ import darkStylesUrl from "~/styles/dark.css";
 import {auth} from "~/utils/firebase"
 import { useLoaderData, json } from "remix";
 import { getSession } from "./sessions.server";
-import { commitSession } from "./sessions.server";
+import { commitSession, destroySession } from "./sessions.server";
 
 // https://remix.run/api/app#links
 export let links = () => {
@@ -47,6 +49,20 @@ export async function loader({ request }) {
 
   return null;
 }
+}
+
+export let action = async ({ request }) => {
+  const session = await getSession(
+    request.headers.get("Cookie")
+  );
+
+  if (session.has("access_token")) {
+  return redirect("/", {
+    headers: {"Set-Cookie": await destroySession(session)}
+  })
+}
+auth.signOut();
+return redirect('/')
 }
 
 // https://remix.run/api/conventions#default-export
@@ -160,7 +176,9 @@ function Layout({ children }) {
                 <Link to="/login">Login</Link>
               </li> : 
               <li>
-              <Link to="/auth/logout">Logout</Link>
+                <Form method="post">
+              <button type="submit" className="navLogoutButton">Logout</button>
+              </Form>
             </li> }
               <li>
                 <Link to="/blogs">Blogs</Link>
