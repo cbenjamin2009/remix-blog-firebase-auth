@@ -1,4 +1,4 @@
-import { isErrorResponse } from "@remix-run/react/data";
+// import { isErrorResponse } from "@remix-run/react/data";
 import { redirect, Form, useActionData, useTransition } from "remix";
 import { createPost } from "~/post";
 
@@ -8,18 +8,21 @@ export let action = async ({ request }) => {
 
     let title = formData.get("title");
     let slug = formData.get("slug")
+    let image = formData.get("image")
     let markdown = formData.get("markdown")
 
     let errors = {};
     if (!title) errors.title = true;
     if (!slug) errors.slug = true;
+    if (!image) errors.image = true;
     if (!markdown) errors.markdown = true;
     
     if (Object.keys(errors).length) {
         return errors;
-    }
+  }
 
-    await createPost({title, slug, markdown});
+
+    await createPost({title, slug, image, markdown});
 
     return redirect("/admin")
 }
@@ -52,6 +55,11 @@ export default function NewPost() {
             <p>
                 <label htmlFor=""> Post Slug: {" "} {errors?.slug && <em>Slug is required</em>} 
                 <input placeholder={slug} id="slugInput" type="text" name="slug"/>
+            </label>
+            </p>
+            <p>
+                <label htmlFor=""> Image id: {" "} {errors?.image && <em>image is required</em>} 
+                <input id="image" type="text" name="image"/>
             </label>
             </p>
             <p>

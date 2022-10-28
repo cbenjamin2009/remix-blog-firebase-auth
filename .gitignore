@@ -1,0 +1,7 @@
+node_modules
+.DS_store
+/api/build/
+.cache
+/public
+# Not sure about this file
+.env
