@@ -11,6 +11,5 @@ model posts {
   id       String @id @default(auto()) @map("_id") @db.ObjectId
   markdown String
   slug     String
-  image    String
   title    String
 }

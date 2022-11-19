@@ -1749,8 +1749,8 @@ async function getPost(slug) {
     where: {
       slug
     }
-  }), id = foundSlug.id, title = foundSlug.title, image = foundSlug.image, html = (0, import_marked.marked)(foundSlug.markdown);
-  return prisma.$disconnect(), { id, slug, title, image, html };
+  }), id = foundSlug.id, title = foundSlug.title, html = (0, import_marked.marked)(foundSlug.markdown);
+  return prisma.$disconnect(), { id, slug, title, html };
 }
 async function getPostEdit(slug) {
   await prisma.$connect();
@@ -1758,15 +1758,14 @@ async function getPostEdit(slug) {
     where: {
       slug
     }
-  }), id = foundSlug.id, title = foundSlug.title, image = foundSlug.image, markdown = foundSlug.markdown;
-  return prisma.$disconnect(), { id, slug, title, image, markdown };
+  }), id = foundSlug.id, title = foundSlug.title, markdown = foundSlug.markdown;
+  return prisma.$disconnect(), { id, slug, title, markdown };
 }
 async function createPost(post) {
-  return await prisma.$connect(), console.log("--------", post.image), await prisma.posts.create({
+  return await prisma.$connect(), await prisma.posts.create({
     data: {
       title: post.title,
       slug: post.slug,
-      image: post.image,
       markdown: post.markdown
     }
   }), prisma.$disconnect(), getPost(post.slug);
@@ -1779,7 +1778,6 @@ async function updatePost(post) {
     data: {
       title: post.title,
       slug: post.slug,
-      image: post.image,
       markdown: post.markdown
     }
   }), prisma.$disconnect(), getPost(post.slug);
@@ -1805,31 +1803,15 @@ var import_jsx_dev_runtime = require("react/jsx-dev-runtime"), links4 = () => [{
 function PostSlug() {
   let post = (0, import_remix10.useLoaderData)();
   return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_jsx_dev_runtime.Fragment, {
-    children: [
-      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
-        className: "postDisplay",
-        dangerouslySetInnerHTML: { __html: post.html }
-      }, void 0, !1, {
-        fileName: "app/routes/blogs/$slug.jsx",
-        lineNumber: 20,
-        columnNumber: 7
-      }, this),
-      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("img", {
-        height: "600",
-        src: "https://res.cloudinary.com/ositaka/image/upload/w_1050,h_600,c_fill/" + post.image
-      }, void 0, !1, {
-        fileName: "app/routes/blogs/$slug.jsx",
-        lineNumber: 24,
-        columnNumber: 7
-      }, this),
-      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("br", {}, void 0, !1, {
-        fileName: "app/routes/blogs/$slug.jsx",
-        lineNumber: 31,
-        columnNumber: 7
-      }, this),
-      post.image
-    ]
-  }, void 0, !0, {
+    children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+      className: "postDisplay",
+      dangerouslySetInnerHTML: { __html: post.html }
+    }, void 0, !1, {
+      fileName: "app/routes/blogs/$slug.jsx",
+      lineNumber: 20,
+      columnNumber: 7
+    }, this)
+  }, void 0, !1, {
     fileName: "app/routes/blogs/$slug.jsx",
     lineNumber: 19,
     columnNumber: 5
@@ -2250,11 +2232,11 @@ __export(edit_exports, {
 });
 var import_tiny_invariant2 = __toESM(require("tiny-invariant"));
 var import_remix16 = __toESM(require_dist()), import_jsx_dev_runtime = require("react/jsx-dev-runtime"), loader6 = async ({ params }) => ((0, import_tiny_invariant2.default)(params.edit, "expected params.edit"), getPostEdit(params.edit)), action5 = async ({ request }) => {
-  let formData = await request.formData(), title = formData.get("title"), slug = formData.get("slug"), image = formData.get("image"), markdown = formData.get("markdown"), id = formData.get("id");
+  let formData = await request.formData(), title = formData.get("title"), slug = formData.get("slug"), markdown = formData.get("markdown"), id = formData.get("id");
   if (request.method == "DELETE")
     return await deletePost(id), (0, import_remix16.redirect)("/admin");
   let errors = {};
-  return title || (errors.title = !0), slug || (errors.slug = !0), image || (errors.image = !0), markdown || (errors.markdown = !0), Object.keys(errors).length ? errors : (await updatePost({ id, title, slug, image, markdown }), (0, import_remix16.redirect)("/admin"));
+  return title || (errors.title = !0), slug || (errors.slug = !0), markdown || (errors.markdown = !0), Object.keys(errors).length ? errors : (await updatePost({ id, title, slug, markdown }), (0, import_remix16.redirect)("/admin"));
 };
 function PostSlug2() {
   let errors = (0, import_remix16.useActionData)(), transition = (0, import_remix16.useTransition)(), post = (0, import_remix16.useLoaderData)();
@@ -2271,26 +2253,24 @@ function PostSlug2() {
             }, void 0, !1, {
               fileName: "app/routes/admin/$edit.jsx",
               lineNumber: 48,
-              columnNumber: 21
+              columnNumber: 11
             }, this)
           }, void 0, !1, {
             fileName: "app/routes/admin/$edit.jsx",
             lineNumber: 47,
-            columnNumber: 17
+            columnNumber: 9
           }, this),
           /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
             children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("label", {
               htmlFor: "",
               children: [
                 "Post Title: ",
-                " ",
-                " ",
                 (errors == null ? void 0 : errors.title) && /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("em", {
                   children: "Title is required"
                 }, void 0, !1, {
                   fileName: "app/routes/admin/$edit.jsx",
-                  lineNumber: 53,
-                  columnNumber: 61
+                  lineNumber: 56,
+                  columnNumber: 43
                 }, this),
                 " ",
                 /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("input", {
@@ -2299,33 +2279,32 @@ function PostSlug2() {
                   defaultValue: post.title
                 }, void 0, !1, {
                   fileName: "app/routes/admin/$edit.jsx",
-                  lineNumber: 53,
-                  columnNumber: 89
+                  lineNumber: 57,
+                  columnNumber: 13
                 }, this)
               ]
             }, void 0, !0, {
               fileName: "app/routes/admin/$edit.jsx",
-              lineNumber: 52,
-              columnNumber: 21
+              lineNumber: 55,
+              columnNumber: 11
             }, this)
           }, void 0, !1, {
             fileName: "app/routes/admin/$edit.jsx",
-            lineNumber: 51,
-            columnNumber: 17
+            lineNumber: 54,
+            columnNumber: 9
           }, this),
           /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
             children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("label", {
               htmlFor: "",
               children: [
-                " Post Slug: ",
                 " ",
-                " ",
+                "Post Slug: ",
                 (errors == null ? void 0 : errors.slug) && /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("em", {
                   children: "Slug is required"
                 }, void 0, !1, {
                   fileName: "app/routes/admin/$edit.jsx",
-                  lineNumber: 57,
-                  columnNumber: 76
+                  lineNumber: 63,
+                  columnNumber: 41
                 }, this),
                 /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("input", {
                   defaultValue: post.slug,
@@ -2334,54 +2313,19 @@ function PostSlug2() {
                   name: "slug"
                 }, void 0, !1, {
                   fileName: "app/routes/admin/$edit.jsx",
-                  lineNumber: 58,
-                  columnNumber: 23
+                  lineNumber: 64,
+                  columnNumber: 13
                 }, this)
               ]
             }, void 0, !0, {
               fileName: "app/routes/admin/$edit.jsx",
-              lineNumber: 57,
-              columnNumber: 23
+              lineNumber: 61,
+              columnNumber: 11
             }, this)
           }, void 0, !1, {
             fileName: "app/routes/admin/$edit.jsx",
-            lineNumber: 56,
-            columnNumber: 19
-          }, this),
-          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
-            children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("label", {
-              htmlFor: "",
-              children: [
-                " Image id: ",
-                " ",
-                " ",
-                (errors == null ? void 0 : errors.image) && /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("em", {
-                  children: "image is required"
-                }, void 0, !1, {
-                  fileName: "app/routes/admin/$edit.jsx",
-                  lineNumber: 62,
-                  columnNumber: 76
-                }, this),
-                /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("input", {
-                  defaultValue: post.image,
-                  id: "image",
-                  type: "text",
-                  name: "image"
-                }, void 0, !1, {
-                  fileName: "app/routes/admin/$edit.jsx",
-                  lineNumber: 63,
-                  columnNumber: 23
-                }, this)
-              ]
-            }, void 0, !0, {
-              fileName: "app/routes/admin/$edit.jsx",
-              lineNumber: 62,
-              columnNumber: 23
-            }, this)
-          }, void 0, !1, {
-            fileName: "app/routes/admin/$edit.jsx",
-            lineNumber: 61,
-            columnNumber: 19
+            lineNumber: 60,
+            columnNumber: 9
           }, this),
           /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
             children: [
@@ -2390,22 +2334,21 @@ function PostSlug2() {
                 children: "Markdown:"
               }, void 0, !1, {
                 fileName: "app/routes/admin/$edit.jsx",
-                lineNumber: 67,
-                columnNumber: 23
+                lineNumber: 73,
+                columnNumber: 11
               }, this),
-              " ",
               " ",
               (errors == null ? void 0 : errors.markdown) && /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("em", {
                 children: "Markdown is required"
               }, void 0, !1, {
                 fileName: "app/routes/admin/$edit.jsx",
-                lineNumber: 67,
-                columnNumber: 93
+                lineNumber: 74,
+                columnNumber: 32
               }, this),
               /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("br", {}, void 0, !1, {
                 fileName: "app/routes/admin/$edit.jsx",
-                lineNumber: 68,
-                columnNumber: 23
+                lineNumber: 75,
+                columnNumber: 11
               }, this),
               /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("textarea", {
                 defaultValue: post.markdown,
@@ -2415,14 +2358,14 @@ function PostSlug2() {
                 cols: 50
               }, void 0, !1, {
                 fileName: "app/routes/admin/$edit.jsx",
-                lineNumber: 69,
-                columnNumber: 23
+                lineNumber: 76,
+                columnNumber: 11
               }, this)
             ]
           }, void 0, !0, {
             fileName: "app/routes/admin/$edit.jsx",
-            lineNumber: 66,
-            columnNumber: 19
+            lineNumber: 72,
+            columnNumber: 9
           }, this),
           /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
             children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("button", {
@@ -2431,19 +2374,19 @@ function PostSlug2() {
               children: transition.submission ? "Updating..." : "Update Post"
             }, void 0, !1, {
               fileName: "app/routes/admin/$edit.jsx",
-              lineNumber: 72,
-              columnNumber: 23
+              lineNumber: 85,
+              columnNumber: 11
             }, this)
           }, void 0, !1, {
             fileName: "app/routes/admin/$edit.jsx",
-            lineNumber: 71,
-            columnNumber: 19
+            lineNumber: 84,
+            columnNumber: 9
           }, this)
         ]
       }, void 0, !0, {
         fileName: "app/routes/admin/$edit.jsx",
         lineNumber: 46,
-        columnNumber: 13
+        columnNumber: 7
       }, this),
       /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_remix16.Form, {
         method: "delete",
@@ -2455,13 +2398,13 @@ function PostSlug2() {
               defaultValue: post.id
             }, void 0, !1, {
               fileName: "app/routes/admin/$edit.jsx",
-              lineNumber: 78,
-              columnNumber: 21
+              lineNumber: 92,
+              columnNumber: 11
             }, this)
           }, void 0, !1, {
             fileName: "app/routes/admin/$edit.jsx",
-            lineNumber: 77,
-            columnNumber: 17
+            lineNumber: 91,
+            columnNumber: 9
           }, this),
           /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
             children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("button", {
@@ -2470,25 +2413,25 @@ function PostSlug2() {
               children: "Delete"
             }, void 0, !1, {
               fileName: "app/routes/admin/$edit.jsx",
-              lineNumber: 82,
-              columnNumber: 21
+              lineNumber: 99,
+              columnNumber: 11
             }, this)
           }, void 0, !1, {
             fileName: "app/routes/admin/$edit.jsx",
-            lineNumber: 81,
-            columnNumber: 17
+            lineNumber: 98,
+            columnNumber: 9
           }, this)
         ]
       }, void 0, !0, {
         fileName: "app/routes/admin/$edit.jsx",
-        lineNumber: 76,
-        columnNumber: 13
+        lineNumber: 90,
+        columnNumber: 7
       }, this)
     ]
   }, void 0, !0, {
     fileName: "app/routes/admin/$edit.jsx",
     lineNumber: 45,
-    columnNumber: 13
+    columnNumber: 5
   }, this);
 }
 
@@ -2534,8 +2477,8 @@ __export(new_exports, {
 });
 var import_remix18 = __toESM(require_dist());
 var import_jsx_dev_runtime = require("react/jsx-dev-runtime"), action6 = async ({ request }) => {
-  let formData = await request.formData(), title = formData.get("title"), slug = formData.get("slug"), image = formData.get("image"), markdown = formData.get("markdown"), errors = {};
-  return title || (errors.title = !0), slug || (errors.slug = !0), image || (errors.image = !0), markdown || (errors.markdown = !0), Object.keys(errors).length ? errors : (await createPost({ title, slug, image, markdown }), (0, import_remix18.redirect)("/admin"));
+  let formData = await request.formData(), title = formData.get("title"), slug = formData.get("slug"), markdown = formData.get("markdown"), errors = {};
+  return title || (errors.title = !0), slug || (errors.slug = !0), markdown || (errors.markdown = !0), Object.keys(errors).length ? errors : (await createPost({ title, slug, markdown }), (0, import_remix18.redirect)("/admin"));
 };
 function NewPost() {
   let errors = (0, import_remix18.useActionData)(), transition = (0, import_remix18.useTransition)(), slug = "", handleChange = (e) => {
@@ -2549,14 +2492,12 @@ function NewPost() {
           htmlFor: "",
           children: [
             "Post Title: ",
-            " ",
-            " ",
             (errors == null ? void 0 : errors.title) && /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("em", {
               children: "Title is required"
             }, void 0, !1, {
               fileName: "app/routes/admin/new.jsx",
-              lineNumber: 52,
-              columnNumber: 55
+              lineNumber: 47,
+              columnNumber: 41
             }, this),
             " ",
             /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("input", {
@@ -2565,33 +2506,32 @@ function NewPost() {
               name: "title"
             }, void 0, !1, {
               fileName: "app/routes/admin/new.jsx",
-              lineNumber: 52,
-              columnNumber: 83
+              lineNumber: 48,
+              columnNumber: 11
             }, this)
           ]
         }, void 0, !0, {
           fileName: "app/routes/admin/new.jsx",
-          lineNumber: 51,
-          columnNumber: 15
+          lineNumber: 46,
+          columnNumber: 9
         }, this)
       }, void 0, !1, {
         fileName: "app/routes/admin/new.jsx",
-        lineNumber: 50,
-        columnNumber: 11
+        lineNumber: 45,
+        columnNumber: 7
       }, this),
       /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
         children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("label", {
           htmlFor: "",
           children: [
-            " Post Slug: ",
             " ",
-            " ",
+            "Post Slug: ",
             (errors == null ? void 0 : errors.slug) && /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("em", {
               children: "Slug is required"
             }, void 0, !1, {
               fileName: "app/routes/admin/new.jsx",
-              lineNumber: 56,
-              columnNumber: 70
+              lineNumber: 54,
+              columnNumber: 39
             }, this),
             /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("input", {
               placeholder: slug,
@@ -2600,53 +2540,19 @@ function NewPost() {
               name: "slug"
             }, void 0, !1, {
               fileName: "app/routes/admin/new.jsx",
-              lineNumber: 57,
-              columnNumber: 17
+              lineNumber: 55,
+              columnNumber: 11
             }, this)
           ]
         }, void 0, !0, {
           fileName: "app/routes/admin/new.jsx",
-          lineNumber: 56,
-          columnNumber: 17
+          lineNumber: 52,
+          columnNumber: 9
         }, this)
       }, void 0, !1, {
         fileName: "app/routes/admin/new.jsx",
-        lineNumber: 55,
-        columnNumber: 13
-      }, this),
-      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
-        children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("label", {
-          htmlFor: "",
-          children: [
-            " Image id: ",
-            " ",
-            " ",
-            (errors == null ? void 0 : errors.image) && /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("em", {
-              children: "image is required"
-            }, void 0, !1, {
-              fileName: "app/routes/admin/new.jsx",
-              lineNumber: 61,
-              columnNumber: 70
-            }, this),
-            /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("input", {
-              id: "image",
-              type: "text",
-              name: "image"
-            }, void 0, !1, {
-              fileName: "app/routes/admin/new.jsx",
-              lineNumber: 62,
-              columnNumber: 17
-            }, this)
-          ]
-        }, void 0, !0, {
-          fileName: "app/routes/admin/new.jsx",
-          lineNumber: 61,
-          columnNumber: 17
-        }, this)
-      }, void 0, !1, {
-        fileName: "app/routes/admin/new.jsx",
-        lineNumber: 60,
-        columnNumber: 13
+        lineNumber: 51,
+        columnNumber: 7
       }, this),
       /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
         children: [
@@ -2655,22 +2561,21 @@ function NewPost() {
             children: "Markdown:"
           }, void 0, !1, {
             fileName: "app/routes/admin/new.jsx",
-            lineNumber: 66,
-            columnNumber: 17
+            lineNumber: 59,
+            columnNumber: 9
           }, this),
-          " ",
           " ",
           (errors == null ? void 0 : errors.markdown) && /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("em", {
             children: "Markdown is required"
           }, void 0, !1, {
             fileName: "app/routes/admin/new.jsx",
-            lineNumber: 66,
-            columnNumber: 87
+            lineNumber: 60,
+            columnNumber: 30
           }, this),
           /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("br", {}, void 0, !1, {
             fileName: "app/routes/admin/new.jsx",
-            lineNumber: 67,
-            columnNumber: 17
+            lineNumber: 61,
+            columnNumber: 9
           }, this),
           /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("textarea", {
             name: "markdown",
@@ -2679,14 +2584,14 @@ function NewPost() {
             cols: 30
           }, void 0, !1, {
             fileName: "app/routes/admin/new.jsx",
-            lineNumber: 68,
-            columnNumber: 17
+            lineNumber: 62,
+            columnNumber: 9
           }, this)
         ]
       }, void 0, !0, {
         fileName: "app/routes/admin/new.jsx",
-        lineNumber: 65,
-        columnNumber: 13
+        lineNumber: 58,
+        columnNumber: 7
       }, this),
       /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
         children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("button", {
@@ -2694,19 +2599,19 @@ function NewPost() {
           children: transition.submission ? "Creating..." : "Create Post"
         }, void 0, !1, {
           fileName: "app/routes/admin/new.jsx",
-          lineNumber: 71,
-          columnNumber: 17
+          lineNumber: 65,
+          columnNumber: 9
         }, this)
       }, void 0, !1, {
         fileName: "app/routes/admin/new.jsx",
-        lineNumber: 70,
-        columnNumber: 13
+        lineNumber: 64,
+        columnNumber: 7
       }, this)
     ]
   }, void 0, !0, {
     fileName: "app/routes/admin/new.jsx",
-    lineNumber: 49,
-    columnNumber: 7
+    lineNumber: 44,
+    columnNumber: 5
   }, this);
 }
 
@@ -2998,7 +2903,7 @@ function Login2() {
 }
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { version: "219fb7bd", entry: { module: "/build/entry.client-SYE7OYNY.js", imports: ["/build/_shared/chunk-MPLWSHX6.js", "/build/_shared/chunk-ICRTW3CN.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-UK7ELTYE.js", imports: void 0, hasAction: !0, hasLoader: !0, hasCatchBoundary: !0, hasErrorBoundary: !0 }, "routes/admin": { id: "routes/admin", parentId: "root", path: "admin", index: void 0, caseSensitive: void 0, module: "/build/routes/admin-2R65FJC5.js", imports: ["/build/_shared/chunk-F6XQVFDE.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/admin/$edit": { id: "routes/admin/$edit", parentId: "routes/admin", path: ":edit", index: void 0, caseSensitive: void 0, module: "/build/routes/admin/$edit-VY6VHJR5.js", imports: void 0, hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/admin/index": { id: "routes/admin/index", parentId: "routes/admin", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/admin/index-KWO2QNZM.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/admin/new": { id: "routes/admin/new", parentId: "routes/admin", path: "new", index: void 0, caseSensitive: void 0, module: "/build/routes/admin/new-IHP3ZAQU.js", imports: void 0, hasAction: !0, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/auth/forgot": { id: "routes/auth/forgot", parentId: "root", path: "auth/forgot", index: void 0, caseSensitive: void 0, module: "/build/routes/auth/forgot-26PS4EOW.js", imports: ["/build/_shared/chunk-65BHA4LR.js"], hasAction: !0, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/auth/register": { id: "routes/auth/register", parentId: "root", path: "auth/register", index: void 0, caseSensitive: void 0, module: "/build/routes/auth/register-FZHGDWIZ.js", imports: ["/build/_shared/chunk-65BHA4LR.js", "/build/_shared/chunk-F6XQVFDE.js"], hasAction: !0, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/blogs/$slug": { id: "routes/blogs/$slug", parentId: "root", path: "blogs/:slug", index: void 0, caseSensitive: void 0, module: "/build/routes/blogs/$slug-CIHTLTCB.js", imports: ["/build/_shared/chunk-O3G62MXX.js", "/build/_shared/chunk-F6XQVFDE.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/blogs/index": { id: "routes/blogs/index", parentId: "root", path: "blogs", index: !0, caseSensitive: void 0, module: "/build/routes/blogs/index-SV6PPQ6Y.js", imports: ["/build/_shared/chunk-O3G62MXX.js", "/build/_shared/chunk-F6XQVFDE.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/demos/about": { id: "routes/demos/about", parentId: "root", path: "demos/about", index: void 0, caseSensitive: void 0, module: "/build/routes/demos/about-HUPYUKJW.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/demos/about/index": { id: "routes/demos/about/index", parentId: "routes/demos/about", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/demos/about/index-T2IU7SZM.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/demos/about/whoa": { id: "routes/demos/about/whoa", parentId: "routes/demos/about", path: "whoa", index: void 0, caseSensitive: void 0, module: "/build/routes/demos/about/whoa-UPENVYNQ.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/demos/actions": { id: "routes/demos/actions", parentId: "root", path: "demos/actions", index: void 0, caseSensitive: void 0, module: "/build/routes/demos/actions-5OC3VOEG.js", imports: void 0, hasAction: !0, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/demos/correct": { id: "routes/demos/correct", parentId: "root", path: "demos/correct", index: void 0, caseSensitive: void 0, module: "/build/routes/demos/correct-ZICR73GT.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/demos/params": { id: "routes/demos/params", parentId: "root", path: "demos/params", index: void 0, caseSensitive: void 0, module: "/build/routes/demos/params-2GNGHN64.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/demos/params/$id": { id: "routes/demos/params/$id", parentId: "routes/demos/params", path: ":id", index: void 0, caseSensitive: void 0, module: "/build/routes/demos/params/$id-2Q2HJC4G.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !0, hasErrorBoundary: !0 }, "routes/demos/params/index": { id: "routes/demos/params/index", parentId: "routes/demos/params", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/demos/params/index-RBUOP6UT.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-52KSFFAL.js", imports: ["/build/_shared/chunk-F6XQVFDE.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/login": { id: "routes/login", parentId: "root", path: "login", index: void 0, caseSensitive: void 0, module: "/build/routes/login-TPLWC2V2.js", imports: ["/build/_shared/chunk-65BHA4LR.js", "/build/_shared/chunk-F6XQVFDE.js"], hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-219FB7BD.js" };
+var assets_manifest_default = { version: "206d177c", entry: { module: "/build/entry.client-WHTVUGNA.js", imports: ["/build/_shared/chunk-OQRAMQRW.js", "/build/_shared/chunk-ICRTW3CN.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-U4ASQJGB.js", imports: void 0, hasAction: !0, hasLoader: !0, hasCatchBoundary: !0, hasErrorBoundary: !0 }, "routes/admin": { id: "routes/admin", parentId: "root", path: "admin", index: void 0, caseSensitive: void 0, module: "/build/routes/admin-NC7MJ74E.js", imports: ["/build/_shared/chunk-F6XQVFDE.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/admin/$edit": { id: "routes/admin/$edit", parentId: "routes/admin", path: ":edit", index: void 0, caseSensitive: void 0, module: "/build/routes/admin/$edit-2SXWYQI6.js", imports: void 0, hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/admin/index": { id: "routes/admin/index", parentId: "routes/admin", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/admin/index-JBLLODGD.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/admin/new": { id: "routes/admin/new", parentId: "routes/admin", path: "new", index: void 0, caseSensitive: void 0, module: "/build/routes/admin/new-H6J2DJJ2.js", imports: void 0, hasAction: !0, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/auth/forgot": { id: "routes/auth/forgot", parentId: "root", path: "auth/forgot", index: void 0, caseSensitive: void 0, module: "/build/routes/auth/forgot-BJ4HE5VZ.js", imports: ["/build/_shared/chunk-65BHA4LR.js"], hasAction: !0, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/auth/register": { id: "routes/auth/register", parentId: "root", path: "auth/register", index: void 0, caseSensitive: void 0, module: "/build/routes/auth/register-RZTJGCN6.js", imports: ["/build/_shared/chunk-65BHA4LR.js", "/build/_shared/chunk-F6XQVFDE.js"], hasAction: !0, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/blogs/$slug": { id: "routes/blogs/$slug", parentId: "root", path: "blogs/:slug", index: void 0, caseSensitive: void 0, module: "/build/routes/blogs/$slug-5FGCZGCU.js", imports: ["/build/_shared/chunk-O3G62MXX.js", "/build/_shared/chunk-F6XQVFDE.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/blogs/index": { id: "routes/blogs/index", parentId: "root", path: "blogs", index: !0, caseSensitive: void 0, module: "/build/routes/blogs/index-2LOGVUKD.js", imports: ["/build/_shared/chunk-O3G62MXX.js", "/build/_shared/chunk-F6XQVFDE.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/demos/about": { id: "routes/demos/about", parentId: "root", path: "demos/about", index: void 0, caseSensitive: void 0, module: "/build/routes/demos/about-LSSHC6J4.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/demos/about/index": { id: "routes/demos/about/index", parentId: "routes/demos/about", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/demos/about/index-2K2PPH3D.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/demos/about/whoa": { id: "routes/demos/about/whoa", parentId: "routes/demos/about", path: "whoa", index: void 0, caseSensitive: void 0, module: "/build/routes/demos/about/whoa-S3KM337C.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/demos/actions": { id: "routes/demos/actions", parentId: "root", path: "demos/actions", index: void 0, caseSensitive: void 0, module: "/build/routes/demos/actions-5LHS2SO7.js", imports: void 0, hasAction: !0, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/demos/correct": { id: "routes/demos/correct", parentId: "root", path: "demos/correct", index: void 0, caseSensitive: void 0, module: "/build/routes/demos/correct-ZICR73GT.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/demos/params": { id: "routes/demos/params", parentId: "root", path: "demos/params", index: void 0, caseSensitive: void 0, module: "/build/routes/demos/params-LGJMFFDS.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/demos/params/$id": { id: "routes/demos/params/$id", parentId: "routes/demos/params", path: ":id", index: void 0, caseSensitive: void 0, module: "/build/routes/demos/params/$id-IZXRR6L3.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !0, hasErrorBoundary: !0 }, "routes/demos/params/index": { id: "routes/demos/params/index", parentId: "routes/demos/params", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/demos/params/index-M66GWNFX.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-FAV4MK3S.js", imports: ["/build/_shared/chunk-F6XQVFDE.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/login": { id: "routes/login", parentId: "root", path: "login", index: void 0, caseSensitive: void 0, module: "/build/routes/login-V7ARQSK4.js", imports: ["/build/_shared/chunk-65BHA4LR.js", "/build/_shared/chunk-F6XQVFDE.js"], hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-206D177C.js" };
 
 // server-entry-module:@remix-run/dev/server-build
 var assetsBuildDirectory = "public/build", publicPath = "/build/", entry = { module: entry_server_exports }, routes = {

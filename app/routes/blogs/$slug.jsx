@@ -21,15 +21,6 @@ export default function PostSlug() {
         className='postDisplay'
         dangerouslySetInnerHTML={{ __html: post.html }}
       />
-      <img
-        height='600'
-        src={
-          'https://res.cloudinary.com/ositaka/image/upload/w_1050,h_600,c_fill/' +
-          post.image
-        }
-      />
-      <br />
-      {post.image}
     </>
   );
 }
