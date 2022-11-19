@@ -55,8 +55,12 @@ export default function PostSlug() {
         </p>
         <p>
           <label htmlFor=''>
-            IMAGE TEST: {errors?.imgSrc && <em>imgSrc test</em>}{' '}
-            <input type='text' name='title' defaultValue={post.imgSrc} />
+            Post Image: {errors?.imgSrc && <em>Image is required</em>} <br />
+            <img
+              src={post.imgSrc}
+              alt={post.imgDesc || 'Upload result'}
+              style={{ width: '400px' }}
+            />
           </label>
         </p>
         <p>
