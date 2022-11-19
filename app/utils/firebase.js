@@ -1,15 +1,15 @@
 import { initializeApp } from "firebase/app";
-import { getAuth  } from "firebase/auth"
+import { getAuth } from "firebase/auth"
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyDhab0G2GmrgoWEngBHRudaOhSrlr2d8_4",
-    authDomain: "remix-auth-tutorial.firebaseapp.com",
-    projectId: "remix-auth-tutorial",
-    storageBucket: "remix-auth-tutorial.appspot.com",
-    messagingSenderId: "496814825666",
-    appId: "1:496814825666:web:99246e28f282e9b3f2db5b"
-  };
+  apiKey: "AIzaSyDIOr7J-wUQrc3NF-q8hq1ys2g_zOIThxA",
+  authDomain: "remix-blog-test.firebaseapp.com",
+  projectId: "remix-blog-test",
+  storageBucket: "remix-blog-test.appspot.com",
+  messagingSenderId: "973022500535",
+  appId: "1:973022500535:web:3729728efd750be88e1f32"
+};
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
