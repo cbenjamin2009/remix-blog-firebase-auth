@@ -313,7 +313,7 @@ var entry_server_exports = {};
 __export(entry_server_exports, {
   default: () => handleRequest
 });
-var import_server = require("react-dom/server"), import_remix = __toESM(require_dist()), import_jsx_dev_runtime = require("react/jsx-dev-runtime");
+var import_server = require("react-dom/server"), import_remix = __toESM(require_dist()), import_stream = require("stream"), import_node = require("@remix-run/node"), import_node2 = require("@remix-run/node"), import_isbot = require("isbot"), import_server2 = require("react-dom/server"), import_jsx_dev_runtime = require("react/jsx-dev-runtime");
 function handleRequest(request, responseStatusCode, responseHeaders, remixContext) {
   let markup = (0, import_server.renderToString)(
     /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_remix.RemixServer, {
@@ -321,11 +321,11 @@ function handleRequest(request, responseStatusCode, responseHeaders, remixContex
       url: request.url
     }, void 0, !1, {
       fileName: "app/entry.server.jsx",
-      lineNumber: 11,
+      lineNumber: 19,
       columnNumber: 5
     }, this)
   );
-  return responseHeaders.set("Content-Type", "text/html"), new Response("<!DOCTYPE html>" + markup, {
+  return responseHeaders.set("Content-Type", "text/html"), new import_node2.Response("<!DOCTYPE html>" + markup, {
     status: responseStatusCode,
     headers: responseHeaders
   });
@@ -861,10 +861,277 @@ function RemixLogo(props) {
   }, this);
 }
 
+// app/routes/test/cloudinary-upload.tsx
+var cloudinary_upload_exports = {};
+__export(cloudinary_upload_exports, {
+  action: () => action2,
+  default: () => Index,
+  uploadImage: () => uploadImage
+});
+var import_node3 = require("@remix-run/node"), import_react = require("@remix-run/react"), import_cloudinary = __toESM(require("cloudinary")), import_node4 = require("@remix-run/node"), import_jsx_dev_runtime = require("react/jsx-dev-runtime");
+import_cloudinary.default.v2.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET
+});
+async function uploadImage(data) {
+  return new Promise(async (resolve, reject) => {
+    let uploadStream = import_cloudinary.default.v2.uploader.upload_stream(
+      {
+        folder: "remix"
+      },
+      (error, result) => {
+        if (error) {
+          reject(error);
+          return;
+        }
+        resolve(result), console.log(result);
+      }
+    );
+    await (0, import_node4.writeAsyncIterableToWritable)(data, uploadStream);
+  });
+}
+var action2 = async ({ request }) => {
+  let uploadHandler = (0, import_node3.unstable_composeUploadHandlers)(
+    async ({ name, contentType, data, filename }) => name !== "img" ? void 0 : (await uploadImage(data)).secure_url,
+    (0, import_node3.unstable_createMemoryUploadHandler)()
+  ), formData = await (0, import_node3.unstable_parseMultipartFormData)(request, uploadHandler), imgSrc = formData.get("img"), imgDesc = formData.get("desc"), ImgTest = imgSrc.replace("h", "");
+  return imgSrc ? (0, import_node3.json)({
+    imgSrc,
+    imgDesc,
+    ImgTest
+  }) : (0, import_node3.json)({
+    error: "something wrong"
+  });
+};
+function Index() {
+  let data = (0, import_react.useActionData)();
+  return console.log(data), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_jsx_dev_runtime.Fragment, {
+    children: [
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_react.Form, {
+        method: "post",
+        encType: "multipart/form-data",
+        children: [
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("label", {
+            htmlFor: "img-field",
+            children: "Image to upload"
+          }, void 0, !1, {
+            fileName: "app/routes/test/cloudinary-upload.tsx",
+            lineNumber: 98,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("input", {
+            id: "img-field",
+            type: "file",
+            name: "img",
+            accept: "image/*"
+          }, void 0, !1, {
+            fileName: "app/routes/test/cloudinary-upload.tsx",
+            lineNumber: 99,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("label", {
+            htmlFor: "img-desc",
+            children: "Image description"
+          }, void 0, !1, {
+            fileName: "app/routes/test/cloudinary-upload.tsx",
+            lineNumber: 100,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("input", {
+            id: "img-desc",
+            type: "text",
+            name: "desc"
+          }, void 0, !1, {
+            fileName: "app/routes/test/cloudinary-upload.tsx",
+            lineNumber: 101,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("button", {
+            type: "submit",
+            children: "upload to cloudinary"
+          }, void 0, !1, {
+            fileName: "app/routes/test/cloudinary-upload.tsx",
+            lineNumber: 102,
+            columnNumber: 9
+          }, this)
+        ]
+      }, void 0, !0, {
+        fileName: "app/routes/test/cloudinary-upload.tsx",
+        lineNumber: 97,
+        columnNumber: 7
+      }, this),
+      (data == null ? void 0 : data.errorMsg) && /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("h2", {
+        children: data.errorMsg
+      }, void 0, !1, {
+        fileName: "app/routes/test/cloudinary-upload.tsx",
+        lineNumber: 104,
+        columnNumber: 26
+      }, this),
+      (data == null ? void 0 : data.imgSrc) && /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_jsx_dev_runtime.Fragment, {
+        children: [
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("h2", {
+            children: "uploaded image"
+          }, void 0, !1, {
+            fileName: "app/routes/test/cloudinary-upload.tsx",
+            lineNumber: 107,
+            columnNumber: 11
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("img", {
+            src: data.imgSrc,
+            alt: data.imgDesc || "Upload result",
+            style: { width: "400px" }
+          }, void 0, !1, {
+            fileName: "app/routes/test/cloudinary-upload.tsx",
+            lineNumber: 108,
+            columnNumber: 11
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("h1", {
+            children: [
+              "Image Id: ",
+              data.imgSrc
+            ]
+          }, void 0, !0, {
+            fileName: "app/routes/test/cloudinary-upload.tsx",
+            lineNumber: 113,
+            columnNumber: 11
+          }, this)
+        ]
+      }, void 0, !0, {
+        fileName: "app/routes/test/cloudinary-upload.tsx",
+        lineNumber: 106,
+        columnNumber: 9
+      }, this)
+    ]
+  }, void 0, !0, {
+    fileName: "app/routes/test/cloudinary-upload.tsx",
+    lineNumber: 96,
+    columnNumber: 5
+  }, this);
+}
+
+// app/routes/test/local-upload.tsx
+var local_upload_exports = {};
+__export(local_upload_exports, {
+  action: () => action3,
+  default: () => Index2
+});
+var import_node5 = require("@remix-run/node"), import_react2 = require("@remix-run/react"), import_jsx_dev_runtime = require("react/jsx-dev-runtime"), action3 = async ({ request }) => {
+  let uploadHandler = (0, import_node5.unstable_composeUploadHandlers)(
+    (0, import_node5.unstable_createFileUploadHandler)({
+      directory: "public/uploads",
+      maxPartSize: 3e4
+    }),
+    (0, import_node5.unstable_createMemoryUploadHandler)()
+  ), image = (await (0, import_node5.unstable_parseMultipartFormData)(request, uploadHandler)).get("img");
+  return !image || typeof image == "string" ? (0, import_node5.json)({
+    error: "something wrong"
+  }) : (0, import_node5.json)({
+    imgSrc: image.name
+  });
+};
+function Index2() {
+  let data = (0, import_react2.useActionData)();
+  return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_jsx_dev_runtime.Fragment, {
+    children: [
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_react2.Form, {
+        method: "post",
+        encType: "multipart/form-data",
+        children: [
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("input", {
+            type: "file",
+            name: "img",
+            accept: "image/*"
+          }, void 0, !1, {
+            fileName: "app/routes/test/local-upload.tsx",
+            lineNumber: 41,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("button", {
+            type: "submit",
+            children: "upload image"
+          }, void 0, !1, {
+            fileName: "app/routes/test/local-upload.tsx",
+            lineNumber: 42,
+            columnNumber: 9
+          }, this)
+        ]
+      }, void 0, !0, {
+        fileName: "app/routes/test/local-upload.tsx",
+        lineNumber: 40,
+        columnNumber: 7
+      }, this),
+      (data == null ? void 0 : data.errorMsg) && /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("h2", {
+        children: data.errorMsg
+      }, void 0, !1, {
+        fileName: "app/routes/test/local-upload.tsx",
+        lineNumber: 44,
+        columnNumber: 26
+      }, this),
+      (data == null ? void 0 : data.imgSrc) && /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_jsx_dev_runtime.Fragment, {
+        children: [
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("h2", {
+            children: "uploaded image"
+          }, void 0, !1, {
+            fileName: "app/routes/test/local-upload.tsx",
+            lineNumber: 47,
+            columnNumber: 11
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("img", {
+            alt: "uploaded",
+            src: data.imgSrc
+          }, void 0, !1, {
+            fileName: "app/routes/test/local-upload.tsx",
+            lineNumber: 48,
+            columnNumber: 11
+          }, this)
+        ]
+      }, void 0, !0, {
+        fileName: "app/routes/test/local-upload.tsx",
+        lineNumber: 46,
+        columnNumber: 9
+      }, this)
+    ]
+  }, void 0, !0, {
+    fileName: "app/routes/test/local-upload.tsx",
+    lineNumber: 39,
+    columnNumber: 5
+  }, this);
+}
+
+// app/routes/test/utils.server.ts
+var utils_server_exports = {};
+__export(utils_server_exports, {
+  uploadImage: () => uploadImage2
+});
+var import_cloudinary2 = __toESM(require("cloudinary")), import_node6 = require("@remix-run/node");
+import_cloudinary2.default.v2.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET
+});
+async function uploadImage2(data) {
+  return new Promise(async (resolve, reject) => {
+    let uploadStream = import_cloudinary2.default.v2.uploader.upload_stream(
+      {
+        folder: "remix"
+      },
+      (error, result) => {
+        if (error) {
+          reject(error);
+          return;
+        }
+        resolve(result), console.log(result);
+      }
+    );
+    await (0, import_node6.writeAsyncIterableToWritable)(data, uploadStream);
+  });
+}
+
 // app/routes/auth/register.jsx
 var register_exports = {};
 __export(register_exports, {
-  action: () => action2,
+  action: () => action4,
   default: () => Register,
   links: () => links2
 });
@@ -874,7 +1141,7 @@ var import_auth2 = require("@firebase/auth"), import_remix5 = __toESM(require_di
 var auth_default = "/build/_assets/auth-G2BXVUE3.css";
 
 // app/routes/auth/register.jsx
-var import_jsx_dev_runtime = require("react/jsx-dev-runtime"), links2 = () => [{ rel: "stylesheet", href: auth_default }], action2 = async ({ request }) => {
+var import_jsx_dev_runtime = require("react/jsx-dev-runtime"), links2 = () => [{ rel: "stylesheet", href: auth_default }], action4 = async ({ request }) => {
   let formData = await request.formData(), email = formData.get("email"), password = formData.get("password");
   await auth.signOut();
   let { session: sessionData, user, error: signUpError } = await (0, import_auth2.createUserWithEmailAndPassword)(auth, email, password);
@@ -1000,21 +1267,21 @@ function Register() {
 // app/routes/demos/actions.jsx
 var actions_exports = {};
 __export(actions_exports, {
-  action: () => action3,
+  action: () => action5,
   default: () => ActionsDemo,
   meta: () => meta
 });
-var import_react = require("react"), import_remix6 = __toESM(require_dist()), import_jsx_dev_runtime = require("react/jsx-dev-runtime");
+var import_react3 = require("react"), import_remix6 = __toESM(require_dist()), import_jsx_dev_runtime = require("react/jsx-dev-runtime");
 function meta() {
   return { title: "Actions Demo" };
 }
-var action3 = async ({ request }) => {
+var action5 = async ({ request }) => {
   let answer = (await request.formData()).get("answer");
   return typeof answer != "string" ? (0, import_remix6.json)("Come on, at least try!", { status: 400 }) : answer !== "egg" ? (0, import_remix6.json)(`Sorry, ${answer} is not right.`, { status: 400 }) : (0, import_remix6.redirect)("/demos/correct");
 };
 function ActionsDemo() {
-  let actionMessage = (0, import_remix6.useActionData)(), answerRef = (0, import_react.useRef)(null);
-  return (0, import_react.useEffect)(() => {
+  let actionMessage = (0, import_remix6.useActionData)(), answerRef = (0, import_react3.useRef)(null);
+  return (0, import_react3.useEffect)(() => {
     actionMessage && answerRef.current && answerRef.current.select();
   }, [actionMessage]), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
     className: "remix__page",
@@ -1638,12 +1905,12 @@ var meta3 = ({ data }) => ({
 // app/routes/auth/forgot.jsx
 var forgot_exports = {};
 __export(forgot_exports, {
-  action: () => action4,
+  action: () => action6,
   default: () => Login,
   links: () => links3
 });
 var import_auth4 = require("@firebase/auth"), import_remix9 = __toESM(require_dist());
-var import_jsx_dev_runtime = require("react/jsx-dev-runtime"), links3 = () => [{ rel: "stylesheet", href: auth_default }], action4 = async ({ request }) => {
+var import_jsx_dev_runtime = require("react/jsx-dev-runtime"), links3 = () => [{ rel: "stylesheet", href: auth_default }], action6 = async ({ request }) => {
   let email = (await request.formData()).get("email");
   try {
     await (0, import_auth4.sendPasswordResetEmail)(auth, email);
@@ -1749,8 +2016,8 @@ async function getPost(slug) {
     where: {
       slug
     }
-  }), id = foundSlug.id, title = foundSlug.title, html = (0, import_marked.marked)(foundSlug.markdown);
-  return prisma.$disconnect(), { id, slug, title, html };
+  }), id = foundSlug.id, title = foundSlug.title, html = (0, import_marked.marked)(foundSlug.markdown), imgSrc = foundSlug.imgSrc;
+  return prisma.$disconnect(), { id, slug, title, imgSrc, html };
 }
 async function getPostEdit(slug) {
   await prisma.$connect();
@@ -1758,15 +2025,16 @@ async function getPostEdit(slug) {
     where: {
       slug
     }
-  }), id = foundSlug.id, title = foundSlug.title, markdown = foundSlug.markdown;
-  return prisma.$disconnect(), { id, slug, title, markdown };
+  }), id = foundSlug.id, title = foundSlug.title, markdown = foundSlug.markdown, imgSrc = foundSlug.imgSrc;
+  return prisma.$disconnect(), { id, slug, title, imgSrc, markdown };
 }
 async function createPost(post) {
   return await prisma.$connect(), await prisma.posts.create({
     data: {
       title: post.title,
       slug: post.slug,
-      markdown: post.markdown
+      markdown: post.markdown,
+      imgSrc: post.imgSrc
     }
   }), prisma.$disconnect(), getPost(post.slug);
 }
@@ -1778,7 +2046,8 @@ async function updatePost(post) {
     data: {
       title: post.title,
       slug: post.slug,
-      markdown: post.markdown
+      markdown: post.markdown,
+      imgSrc: post.imgSrc
     }
   }), prisma.$disconnect(), getPost(post.slug);
 }
@@ -1803,15 +2072,28 @@ var import_jsx_dev_runtime = require("react/jsx-dev-runtime"), links4 = () => [{
 function PostSlug() {
   let post = (0, import_remix10.useLoaderData)();
   return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_jsx_dev_runtime.Fragment, {
-    children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
-      className: "postDisplay",
-      dangerouslySetInnerHTML: { __html: post.html }
-    }, void 0, !1, {
-      fileName: "app/routes/blogs/$slug.jsx",
-      lineNumber: 20,
-      columnNumber: 7
-    }, this)
-  }, void 0, !1, {
+    children: [
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
+        className: "postDisplay",
+        dangerouslySetInnerHTML: { __html: post.html }
+      }, void 0, !1, {
+        fileName: "app/routes/blogs/$slug.jsx",
+        lineNumber: 20,
+        columnNumber: 7
+      }, this),
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("img", {
+        height: "600",
+        src: "https://res.cloudinary.com/ositaka/image/upload/v1668881326/remix/hf4bj3tg5hsdt5uefslb.jpg"
+      }, void 0, !1, {
+        fileName: "app/routes/blogs/$slug.jsx",
+        lineNumber: 24,
+        columnNumber: 7
+      }, this),
+      post.html,
+      post.imgSrc,
+      post.image
+    ]
+  }, void 0, !0, {
     fileName: "app/routes/blogs/$slug.jsx",
     lineNumber: 19,
     columnNumber: 5
@@ -1892,7 +2174,7 @@ function Posts() {
 // app/routes/demos/about.jsx
 var about_exports = {};
 __export(about_exports, {
-  default: () => Index,
+  default: () => Index3,
   links: () => links6,
   meta: () => meta4
 });
@@ -1905,7 +2187,7 @@ var about_default = "/build/_assets/about-GGM5BPB3.css";
 var import_jsx_dev_runtime = require("react/jsx-dev-runtime"), meta4 = () => ({
   title: "About Remix"
 }), links6 = () => [{ rel: "stylesheet", href: about_default }];
-function Index() {
+function Index3() {
   return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
     className: "about",
     children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
@@ -2226,17 +2508,17 @@ function Admin() {
 // app/routes/admin/$edit.jsx
 var edit_exports = {};
 __export(edit_exports, {
-  action: () => action5,
+  action: () => action7,
   default: () => PostSlug2,
   loader: () => loader6
 });
 var import_tiny_invariant2 = __toESM(require("tiny-invariant"));
-var import_remix16 = __toESM(require_dist()), import_jsx_dev_runtime = require("react/jsx-dev-runtime"), loader6 = async ({ params }) => ((0, import_tiny_invariant2.default)(params.edit, "expected params.edit"), getPostEdit(params.edit)), action5 = async ({ request }) => {
-  let formData = await request.formData(), title = formData.get("title"), slug = formData.get("slug"), markdown = formData.get("markdown"), id = formData.get("id");
+var import_remix16 = __toESM(require_dist()), import_jsx_dev_runtime = require("react/jsx-dev-runtime"), loader6 = async ({ params }) => ((0, import_tiny_invariant2.default)(params.edit, "expected params.edit"), getPostEdit(params.edit)), action7 = async ({ request }) => {
+  let formData = await request.formData(), title = formData.get("title"), slug = formData.get("slug"), markdown = formData.get("markdown"), imgSrc = formData.get("imgSrc"), id = formData.get("id");
   if (request.method == "DELETE")
     return await deletePost(id), (0, import_remix16.redirect)("/admin");
   let errors = {};
-  return title || (errors.title = !0), slug || (errors.slug = !0), markdown || (errors.markdown = !0), Object.keys(errors).length ? errors : (await updatePost({ id, title, slug, markdown }), (0, import_remix16.redirect)("/admin"));
+  return title || (errors.title = !0), slug || (errors.slug = !0), imgSrc || (errors.imgSrc = !0), markdown || (errors.markdown = !0), Object.keys(errors).length ? errors : (await updatePost({ id, title, slug, imgSrc, markdown }), (0, import_remix16.redirect)("/admin"));
 };
 function PostSlug2() {
   let errors = (0, import_remix16.useActionData)(), transition = (0, import_remix16.useTransition)(), post = (0, import_remix16.useLoaderData)();
@@ -2252,12 +2534,45 @@ function PostSlug2() {
               defaultValue: post.id
             }, void 0, !1, {
               fileName: "app/routes/admin/$edit.jsx",
-              lineNumber: 48,
+              lineNumber: 50,
               columnNumber: 11
             }, this)
           }, void 0, !1, {
             fileName: "app/routes/admin/$edit.jsx",
-            lineNumber: 47,
+            lineNumber: 49,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
+            children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("label", {
+              htmlFor: "",
+              children: [
+                "IMAGE TEST: ",
+                (errors == null ? void 0 : errors.imgSrc) && /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("em", {
+                  children: "imgSrc test"
+                }, void 0, !1, {
+                  fileName: "app/routes/admin/$edit.jsx",
+                  lineNumber: 58,
+                  columnNumber: 44
+                }, this),
+                " ",
+                /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("input", {
+                  type: "text",
+                  name: "title",
+                  defaultValue: post.imgSrc
+                }, void 0, !1, {
+                  fileName: "app/routes/admin/$edit.jsx",
+                  lineNumber: 59,
+                  columnNumber: 13
+                }, this)
+              ]
+            }, void 0, !0, {
+              fileName: "app/routes/admin/$edit.jsx",
+              lineNumber: 57,
+              columnNumber: 11
+            }, this)
+          }, void 0, !1, {
+            fileName: "app/routes/admin/$edit.jsx",
+            lineNumber: 56,
             columnNumber: 9
           }, this),
           /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
@@ -2269,7 +2584,7 @@ function PostSlug2() {
                   children: "Title is required"
                 }, void 0, !1, {
                   fileName: "app/routes/admin/$edit.jsx",
-                  lineNumber: 56,
+                  lineNumber: 64,
                   columnNumber: 43
                 }, this),
                 " ",
@@ -2279,18 +2594,18 @@ function PostSlug2() {
                   defaultValue: post.title
                 }, void 0, !1, {
                   fileName: "app/routes/admin/$edit.jsx",
-                  lineNumber: 57,
+                  lineNumber: 65,
                   columnNumber: 13
                 }, this)
               ]
             }, void 0, !0, {
               fileName: "app/routes/admin/$edit.jsx",
-              lineNumber: 55,
+              lineNumber: 63,
               columnNumber: 11
             }, this)
           }, void 0, !1, {
             fileName: "app/routes/admin/$edit.jsx",
-            lineNumber: 54,
+            lineNumber: 62,
             columnNumber: 9
           }, this),
           /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
@@ -2303,7 +2618,7 @@ function PostSlug2() {
                   children: "Slug is required"
                 }, void 0, !1, {
                   fileName: "app/routes/admin/$edit.jsx",
-                  lineNumber: 63,
+                  lineNumber: 71,
                   columnNumber: 41
                 }, this),
                 /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("input", {
@@ -2313,18 +2628,18 @@ function PostSlug2() {
                   name: "slug"
                 }, void 0, !1, {
                   fileName: "app/routes/admin/$edit.jsx",
-                  lineNumber: 64,
+                  lineNumber: 72,
                   columnNumber: 13
                 }, this)
               ]
             }, void 0, !0, {
               fileName: "app/routes/admin/$edit.jsx",
-              lineNumber: 61,
+              lineNumber: 69,
               columnNumber: 11
             }, this)
           }, void 0, !1, {
             fileName: "app/routes/admin/$edit.jsx",
-            lineNumber: 60,
+            lineNumber: 68,
             columnNumber: 9
           }, this),
           /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
@@ -2334,7 +2649,7 @@ function PostSlug2() {
                 children: "Markdown:"
               }, void 0, !1, {
                 fileName: "app/routes/admin/$edit.jsx",
-                lineNumber: 73,
+                lineNumber: 81,
                 columnNumber: 11
               }, this),
               " ",
@@ -2342,12 +2657,12 @@ function PostSlug2() {
                 children: "Markdown is required"
               }, void 0, !1, {
                 fileName: "app/routes/admin/$edit.jsx",
-                lineNumber: 74,
+                lineNumber: 82,
                 columnNumber: 32
               }, this),
               /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("br", {}, void 0, !1, {
                 fileName: "app/routes/admin/$edit.jsx",
-                lineNumber: 75,
+                lineNumber: 83,
                 columnNumber: 11
               }, this),
               /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("textarea", {
@@ -2358,13 +2673,13 @@ function PostSlug2() {
                 cols: 50
               }, void 0, !1, {
                 fileName: "app/routes/admin/$edit.jsx",
-                lineNumber: 76,
+                lineNumber: 84,
                 columnNumber: 11
               }, this)
             ]
           }, void 0, !0, {
             fileName: "app/routes/admin/$edit.jsx",
-            lineNumber: 72,
+            lineNumber: 80,
             columnNumber: 9
           }, this),
           /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
@@ -2374,18 +2689,18 @@ function PostSlug2() {
               children: transition.submission ? "Updating..." : "Update Post"
             }, void 0, !1, {
               fileName: "app/routes/admin/$edit.jsx",
-              lineNumber: 85,
+              lineNumber: 93,
               columnNumber: 11
             }, this)
           }, void 0, !1, {
             fileName: "app/routes/admin/$edit.jsx",
-            lineNumber: 84,
+            lineNumber: 92,
             columnNumber: 9
           }, this)
         ]
       }, void 0, !0, {
         fileName: "app/routes/admin/$edit.jsx",
-        lineNumber: 46,
+        lineNumber: 48,
         columnNumber: 7
       }, this),
       /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_remix16.Form, {
@@ -2398,12 +2713,12 @@ function PostSlug2() {
               defaultValue: post.id
             }, void 0, !1, {
               fileName: "app/routes/admin/$edit.jsx",
-              lineNumber: 92,
+              lineNumber: 100,
               columnNumber: 11
             }, this)
           }, void 0, !1, {
             fileName: "app/routes/admin/$edit.jsx",
-            lineNumber: 91,
+            lineNumber: 99,
             columnNumber: 9
           }, this),
           /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
@@ -2413,24 +2728,24 @@ function PostSlug2() {
               children: "Delete"
             }, void 0, !1, {
               fileName: "app/routes/admin/$edit.jsx",
-              lineNumber: 99,
+              lineNumber: 107,
               columnNumber: 11
             }, this)
           }, void 0, !1, {
             fileName: "app/routes/admin/$edit.jsx",
-            lineNumber: 98,
+            lineNumber: 106,
             columnNumber: 9
           }, this)
         ]
       }, void 0, !0, {
         fileName: "app/routes/admin/$edit.jsx",
-        lineNumber: 90,
+        lineNumber: 98,
         columnNumber: 7
       }, this)
     ]
   }, void 0, !0, {
     fileName: "app/routes/admin/$edit.jsx",
-    lineNumber: 45,
+    lineNumber: 47,
     columnNumber: 5
   }, this);
 }
@@ -2472,145 +2787,290 @@ function AdminIndex() {
 // app/routes/admin/new.jsx
 var new_exports = {};
 __export(new_exports, {
-  action: () => action6,
-  default: () => NewPost
+  action: () => action8,
+  default: () => NewPost,
+  uploadImage: () => uploadImage3
 });
-var import_remix18 = __toESM(require_dist());
-var import_jsx_dev_runtime = require("react/jsx-dev-runtime"), action6 = async ({ request }) => {
-  let formData = await request.formData(), title = formData.get("title"), slug = formData.get("slug"), markdown = formData.get("markdown"), errors = {};
-  return title || (errors.title = !0), slug || (errors.slug = !0), markdown || (errors.markdown = !0), Object.keys(errors).length ? errors : (await createPost({ title, slug, markdown }), (0, import_remix18.redirect)("/admin"));
+var import_remix18 = __toESM(require_dist()), import_node7 = require("@remix-run/node"), import_node8 = require("@remix-run/node"), import_cloudinary3 = __toESM(require("cloudinary")), import_node9 = require("@remix-run/node");
+var import_jsx_dev_runtime = require("react/jsx-dev-runtime");
+import_cloudinary3.default.v2.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET
+});
+async function uploadImage3(data) {
+  return new Promise(async (resolve, reject) => {
+    let uploadStream = import_cloudinary3.default.v2.uploader.upload_stream(
+      {
+        folder: "remix"
+      },
+      (error, result) => {
+        if (error) {
+          reject(error);
+          return;
+        }
+        resolve(result), console.log(result);
+      }
+    );
+    await (0, import_node9.writeAsyncIterableToWritable)(data, uploadStream);
+  });
+}
+var action8 = async ({ request }) => {
+  let uploadHandler = (0, import_node8.unstable_composeUploadHandlers)(
+    async ({ name, contentType, data, filename }) => name !== "img" ? void 0 : (await uploadImage3(data)).secure_url,
+    (0, import_node8.unstable_createMemoryUploadHandler)()
+  ), formData = await (0, import_node8.unstable_parseMultipartFormData)(request, uploadHandler), imgSrc = formData.get("img"), imgDesc = formData.get("desc"), ImgTest = imgSrc.replace("h", "");
+  if (!imgSrc)
+    return (0, import_node8.json)({
+      error: "something wrong"
+    });
+  let title = formData.get("title"), slug = formData.get("slug"), markdown = formData.get("markdown"), errors = {};
+  if (title || (errors.title = !0), slug || (errors.slug = !0), markdown || (errors.markdown = !0), Object.keys(errors).length)
+    return errors;
+  return await createPost({ title, slug, imgSrc, imgDesc, ImgTest, markdown }), (0, import_node8.json)({
+    imgSrc,
+    imgDesc,
+    ImgTest,
+    title,
+    slug,
+    markdown
+  });
+  return (0, import_remix18.redirect)("/admin");
 };
 function NewPost() {
-  let errors = (0, import_remix18.useActionData)(), transition = (0, import_remix18.useTransition)(), slug = "", handleChange = (e) => {
-    slug = e.target.value.replace(/\s/g, "-"), document.getElementById("slugInput").value = slug.toLowerCase();
-  };
-  return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_remix18.Form, {
-    method: "post",
+  let errors = (0, import_remix18.useActionData)(), transition = (0, import_remix18.useTransition)(), slug = "", imgSrc = "", handleChange = (e) => {
+    slug = e.target.value.replace(/\s/g, "-"), document.getElementById("slugInput").value = slug.toLowerCase(), console.log("hello");
+  }, data = (0, import_remix18.useActionData)();
+  return console.log(data), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_jsx_dev_runtime.Fragment, {
     children: [
-      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
-        children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("label", {
-          htmlFor: "",
-          children: [
-            "Post Title: ",
-            (errors == null ? void 0 : errors.title) && /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("em", {
-              children: "Title is required"
-            }, void 0, !1, {
-              fileName: "app/routes/admin/new.jsx",
-              lineNumber: 47,
-              columnNumber: 41
-            }, this),
-            " ",
-            /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("input", {
-              onChange: handleChange,
-              type: "text",
-              name: "title"
-            }, void 0, !1, {
-              fileName: "app/routes/admin/new.jsx",
-              lineNumber: 48,
-              columnNumber: 11
-            }, this)
-          ]
-        }, void 0, !0, {
-          fileName: "app/routes/admin/new.jsx",
-          lineNumber: 46,
-          columnNumber: 9
-        }, this)
+      (data == null ? void 0 : data.errorMsg) && /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("h2", {
+        children: data.errorMsg
       }, void 0, !1, {
         fileName: "app/routes/admin/new.jsx",
-        lineNumber: 45,
-        columnNumber: 7
+        lineNumber: 146,
+        columnNumber: 26
       }, this),
-      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
-        children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("label", {
-          htmlFor: "",
-          children: [
-            " ",
-            "Post Slug: ",
-            (errors == null ? void 0 : errors.slug) && /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("em", {
-              children: "Slug is required"
-            }, void 0, !1, {
-              fileName: "app/routes/admin/new.jsx",
-              lineNumber: 54,
-              columnNumber: 39
-            }, this),
-            /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("input", {
-              placeholder: slug,
-              id: "slugInput",
-              type: "text",
-              name: "slug"
-            }, void 0, !1, {
-              fileName: "app/routes/admin/new.jsx",
-              lineNumber: 55,
-              columnNumber: 11
-            }, this)
-          ]
-        }, void 0, !0, {
-          fileName: "app/routes/admin/new.jsx",
-          lineNumber: 52,
-          columnNumber: 9
-        }, this)
-      }, void 0, !1, {
+      (data == null ? void 0 : data.imgSrc) && /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_jsx_dev_runtime.Fragment, {
+        children: [
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("h2", {
+            children: "uploaded image"
+          }, void 0, !1, {
+            fileName: "app/routes/admin/new.jsx",
+            lineNumber: 149,
+            columnNumber: 11
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("img", {
+            src: data.imgSrc,
+            alt: data.imgDesc || "Upload result",
+            style: { width: "400px" }
+          }, void 0, !1, {
+            fileName: "app/routes/admin/new.jsx",
+            lineNumber: 150,
+            columnNumber: 11
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("h1", {
+            children: [
+              "Image Id: ",
+              data.imgSrc
+            ]
+          }, void 0, !0, {
+            fileName: "app/routes/admin/new.jsx",
+            lineNumber: 155,
+            columnNumber: 11
+          }, this)
+        ]
+      }, void 0, !0, {
         fileName: "app/routes/admin/new.jsx",
-        lineNumber: 51,
-        columnNumber: 7
+        lineNumber: 148,
+        columnNumber: 9
       }, this),
-      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_remix18.Form, {
+        method: "post",
+        encType: "multipart/form-data",
         children: [
           /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("label", {
-            htmlFor: "markdown",
-            children: "Markdown:"
+            htmlFor: "img-field",
+            children: "Image to upload"
           }, void 0, !1, {
             fileName: "app/routes/admin/new.jsx",
-            lineNumber: 59,
+            lineNumber: 159,
             columnNumber: 9
           }, this),
-          " ",
-          (errors == null ? void 0 : errors.markdown) && /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("em", {
-            children: "Markdown is required"
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("input", {
+            id: "img-field",
+            type: "file",
+            name: "img",
+            accept: "image/*"
           }, void 0, !1, {
             fileName: "app/routes/admin/new.jsx",
-            lineNumber: 60,
-            columnNumber: 30
-          }, this),
-          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("br", {}, void 0, !1, {
-            fileName: "app/routes/admin/new.jsx",
-            lineNumber: 61,
+            lineNumber: 160,
             columnNumber: 9
           }, this),
-          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("textarea", {
-            name: "markdown",
-            id: "",
-            rows: 20,
-            cols: 30
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("label", {
+            htmlFor: "img-desc",
+            children: "Image description"
           }, void 0, !1, {
             fileName: "app/routes/admin/new.jsx",
-            lineNumber: 62,
+            lineNumber: 161,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("input", {
+            id: "img-desc",
+            type: "text",
+            name: "desc"
+          }, void 0, !1, {
+            fileName: "app/routes/admin/new.jsx",
+            lineNumber: 162,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("input", {
+            id: "imgSrc",
+            type: "hidden",
+            name: "imgSrc",
+            value: imgSrc
+          }, void 0, !1, {
+            fileName: "app/routes/admin/new.jsx",
+            lineNumber: 164,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("button", {
+            type: "submit",
+            children: "upload to cloudinary"
+          }, void 0, !1, {
+            fileName: "app/routes/admin/new.jsx",
+            lineNumber: 168,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
+            children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("label", {
+              htmlFor: "",
+              children: [
+                "Post Title: ",
+                (errors == null ? void 0 : errors.title) && /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("em", {
+                  children: "Title is required"
+                }, void 0, !1, {
+                  fileName: "app/routes/admin/new.jsx",
+                  lineNumber: 171,
+                  columnNumber: 43
+                }, this),
+                " ",
+                /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("input", {
+                  onChange: handleChange,
+                  type: "text",
+                  name: "title"
+                }, void 0, !1, {
+                  fileName: "app/routes/admin/new.jsx",
+                  lineNumber: 172,
+                  columnNumber: 13
+                }, this)
+              ]
+            }, void 0, !0, {
+              fileName: "app/routes/admin/new.jsx",
+              lineNumber: 170,
+              columnNumber: 11
+            }, this)
+          }, void 0, !1, {
+            fileName: "app/routes/admin/new.jsx",
+            lineNumber: 169,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
+            children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("label", {
+              htmlFor: "",
+              children: [
+                " ",
+                "Post Slug: ",
+                (errors == null ? void 0 : errors.slug) && /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("em", {
+                  children: "Slug is required"
+                }, void 0, !1, {
+                  fileName: "app/routes/admin/new.jsx",
+                  lineNumber: 178,
+                  columnNumber: 41
+                }, this),
+                /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("input", {
+                  placeholder: slug,
+                  id: "slugInput",
+                  type: "text",
+                  name: "slug"
+                }, void 0, !1, {
+                  fileName: "app/routes/admin/new.jsx",
+                  lineNumber: 179,
+                  columnNumber: 13
+                }, this)
+              ]
+            }, void 0, !0, {
+              fileName: "app/routes/admin/new.jsx",
+              lineNumber: 176,
+              columnNumber: 11
+            }, this)
+          }, void 0, !1, {
+            fileName: "app/routes/admin/new.jsx",
+            lineNumber: 175,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
+            children: [
+              /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("label", {
+                htmlFor: "markdown",
+                children: "Markdown:"
+              }, void 0, !1, {
+                fileName: "app/routes/admin/new.jsx",
+                lineNumber: 183,
+                columnNumber: 11
+              }, this),
+              " ",
+              (errors == null ? void 0 : errors.markdown) && /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("em", {
+                children: "Markdown is required"
+              }, void 0, !1, {
+                fileName: "app/routes/admin/new.jsx",
+                lineNumber: 184,
+                columnNumber: 32
+              }, this),
+              /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("br", {}, void 0, !1, {
+                fileName: "app/routes/admin/new.jsx",
+                lineNumber: 185,
+                columnNumber: 11
+              }, this),
+              /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("textarea", {
+                name: "markdown",
+                id: "",
+                rows: 20,
+                cols: 30
+              }, void 0, !1, {
+                fileName: "app/routes/admin/new.jsx",
+                lineNumber: 186,
+                columnNumber: 11
+              }, this)
+            ]
+          }, void 0, !0, {
+            fileName: "app/routes/admin/new.jsx",
+            lineNumber: 182,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
+            children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("button", {
+              type: "submit",
+              children: transition.submission ? "Creating..." : "Create Post"
+            }, void 0, !1, {
+              fileName: "app/routes/admin/new.jsx",
+              lineNumber: 189,
+              columnNumber: 11
+            }, this)
+          }, void 0, !1, {
+            fileName: "app/routes/admin/new.jsx",
+            lineNumber: 188,
             columnNumber: 9
           }, this)
         ]
       }, void 0, !0, {
         fileName: "app/routes/admin/new.jsx",
-        lineNumber: 58,
-        columnNumber: 7
-      }, this),
-      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
-        children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("button", {
-          type: "submit",
-          children: transition.submission ? "Creating..." : "Create Post"
-        }, void 0, !1, {
-          fileName: "app/routes/admin/new.jsx",
-          lineNumber: 65,
-          columnNumber: 9
-        }, this)
-      }, void 0, !1, {
-        fileName: "app/routes/admin/new.jsx",
-        lineNumber: 64,
+        lineNumber: 158,
         columnNumber: 7
       }, this)
     ]
   }, void 0, !0, {
     fileName: "app/routes/admin/new.jsx",
-    lineNumber: 44,
+    lineNumber: 145,
     columnNumber: 5
   }, this);
 }
@@ -2618,7 +3078,7 @@ function NewPost() {
 // app/routes/index.jsx
 var routes_exports = {};
 __export(routes_exports, {
-  default: () => Index2,
+  default: () => Index4,
   loader: () => loader7,
   meta: () => meta5
 });
@@ -2642,7 +3102,7 @@ var meta5 = () => ({
   title: "Remix Starter",
   description: "Welcome to remix!"
 });
-function Index2() {
+function Index4() {
   var _a;
   let data = (0, import_remix19.useLoaderData)(), greeting = (_a = data == null ? void 0 : data.user) != null && _a.email ? data.user.email : "friend";
   return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
@@ -2754,7 +3214,7 @@ function Index2() {
 // app/routes/login.jsx
 var login_exports = {};
 __export(login_exports, {
-  action: () => action7,
+  action: () => action9,
   default: () => Login2,
   links: () => links8,
   loader: () => loader8
@@ -2774,7 +3234,7 @@ async function loader8({ request }) {
     }
   });
 }
-var action7 = async ({ request }) => {
+var action9 = async ({ request }) => {
   let formData = await request.formData(), email = formData.get("email"), password = formData.get("password"), { user, error } = await (0, import_auth6.signInWithEmailAndPassword)(auth, email, password);
   if (user) {
     let session = await getSession(request.headers.get("Cookie"));
@@ -2903,7 +3363,7 @@ function Login2() {
 }
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { version: "206d177c", entry: { module: "/build/entry.client-WHTVUGNA.js", imports: ["/build/_shared/chunk-OQRAMQRW.js", "/build/_shared/chunk-ICRTW3CN.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-U4ASQJGB.js", imports: void 0, hasAction: !0, hasLoader: !0, hasCatchBoundary: !0, hasErrorBoundary: !0 }, "routes/admin": { id: "routes/admin", parentId: "root", path: "admin", index: void 0, caseSensitive: void 0, module: "/build/routes/admin-NC7MJ74E.js", imports: ["/build/_shared/chunk-F6XQVFDE.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/admin/$edit": { id: "routes/admin/$edit", parentId: "routes/admin", path: ":edit", index: void 0, caseSensitive: void 0, module: "/build/routes/admin/$edit-2SXWYQI6.js", imports: void 0, hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/admin/index": { id: "routes/admin/index", parentId: "routes/admin", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/admin/index-JBLLODGD.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/admin/new": { id: "routes/admin/new", parentId: "routes/admin", path: "new", index: void 0, caseSensitive: void 0, module: "/build/routes/admin/new-H6J2DJJ2.js", imports: void 0, hasAction: !0, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/auth/forgot": { id: "routes/auth/forgot", parentId: "root", path: "auth/forgot", index: void 0, caseSensitive: void 0, module: "/build/routes/auth/forgot-BJ4HE5VZ.js", imports: ["/build/_shared/chunk-65BHA4LR.js"], hasAction: !0, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/auth/register": { id: "routes/auth/register", parentId: "root", path: "auth/register", index: void 0, caseSensitive: void 0, module: "/build/routes/auth/register-RZTJGCN6.js", imports: ["/build/_shared/chunk-65BHA4LR.js", "/build/_shared/chunk-F6XQVFDE.js"], hasAction: !0, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/blogs/$slug": { id: "routes/blogs/$slug", parentId: "root", path: "blogs/:slug", index: void 0, caseSensitive: void 0, module: "/build/routes/blogs/$slug-5FGCZGCU.js", imports: ["/build/_shared/chunk-O3G62MXX.js", "/build/_shared/chunk-F6XQVFDE.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/blogs/index": { id: "routes/blogs/index", parentId: "root", path: "blogs", index: !0, caseSensitive: void 0, module: "/build/routes/blogs/index-2LOGVUKD.js", imports: ["/build/_shared/chunk-O3G62MXX.js", "/build/_shared/chunk-F6XQVFDE.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/demos/about": { id: "routes/demos/about", parentId: "root", path: "demos/about", index: void 0, caseSensitive: void 0, module: "/build/routes/demos/about-LSSHC6J4.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/demos/about/index": { id: "routes/demos/about/index", parentId: "routes/demos/about", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/demos/about/index-2K2PPH3D.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/demos/about/whoa": { id: "routes/demos/about/whoa", parentId: "routes/demos/about", path: "whoa", index: void 0, caseSensitive: void 0, module: "/build/routes/demos/about/whoa-S3KM337C.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/demos/actions": { id: "routes/demos/actions", parentId: "root", path: "demos/actions", index: void 0, caseSensitive: void 0, module: "/build/routes/demos/actions-5LHS2SO7.js", imports: void 0, hasAction: !0, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/demos/correct": { id: "routes/demos/correct", parentId: "root", path: "demos/correct", index: void 0, caseSensitive: void 0, module: "/build/routes/demos/correct-ZICR73GT.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/demos/params": { id: "routes/demos/params", parentId: "root", path: "demos/params", index: void 0, caseSensitive: void 0, module: "/build/routes/demos/params-LGJMFFDS.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/demos/params/$id": { id: "routes/demos/params/$id", parentId: "routes/demos/params", path: ":id", index: void 0, caseSensitive: void 0, module: "/build/routes/demos/params/$id-IZXRR6L3.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !0, hasErrorBoundary: !0 }, "routes/demos/params/index": { id: "routes/demos/params/index", parentId: "routes/demos/params", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/demos/params/index-M66GWNFX.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-FAV4MK3S.js", imports: ["/build/_shared/chunk-F6XQVFDE.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/login": { id: "routes/login", parentId: "root", path: "login", index: void 0, caseSensitive: void 0, module: "/build/routes/login-V7ARQSK4.js", imports: ["/build/_shared/chunk-65BHA4LR.js", "/build/_shared/chunk-F6XQVFDE.js"], hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-206D177C.js" };
+var assets_manifest_default = { version: "a2e9b9b7", entry: { module: "/build/entry.client-RZ2IDQM4.js", imports: ["/build/_shared/chunk-EUYIKPYG.js", "/build/_shared/chunk-GUQG7DWN.js", "/build/_shared/chunk-GDSG6XVO.js", "/build/_shared/chunk-CUPSZOF3.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-RDXJKIWI.js", imports: void 0, hasAction: !0, hasLoader: !0, hasCatchBoundary: !0, hasErrorBoundary: !0 }, "routes/admin": { id: "routes/admin", parentId: "root", path: "admin", index: void 0, caseSensitive: void 0, module: "/build/routes/admin-UZD5DZJH.js", imports: ["/build/_shared/chunk-6MFXEF3F.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/admin/$edit": { id: "routes/admin/$edit", parentId: "routes/admin", path: ":edit", index: void 0, caseSensitive: void 0, module: "/build/routes/admin/$edit-3YNFYVFS.js", imports: void 0, hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/admin/index": { id: "routes/admin/index", parentId: "routes/admin", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/admin/index-MOTQBI5L.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/admin/new": { id: "routes/admin/new", parentId: "routes/admin", path: "new", index: void 0, caseSensitive: void 0, module: "/build/routes/admin/new-TARWNR5W.js", imports: ["/build/_shared/chunk-WAQ6HORZ.js"], hasAction: !0, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/auth/forgot": { id: "routes/auth/forgot", parentId: "root", path: "auth/forgot", index: void 0, caseSensitive: void 0, module: "/build/routes/auth/forgot-VCS6GKCM.js", imports: ["/build/_shared/chunk-TP24YSQU.js"], hasAction: !0, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/auth/register": { id: "routes/auth/register", parentId: "root", path: "auth/register", index: void 0, caseSensitive: void 0, module: "/build/routes/auth/register-QVPVUQKH.js", imports: ["/build/_shared/chunk-TP24YSQU.js", "/build/_shared/chunk-6MFXEF3F.js"], hasAction: !0, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/blogs/$slug": { id: "routes/blogs/$slug", parentId: "root", path: "blogs/:slug", index: void 0, caseSensitive: void 0, module: "/build/routes/blogs/$slug-ECFJWPWR.js", imports: ["/build/_shared/chunk-O3G62MXX.js", "/build/_shared/chunk-6MFXEF3F.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/blogs/index": { id: "routes/blogs/index", parentId: "root", path: "blogs", index: !0, caseSensitive: void 0, module: "/build/routes/blogs/index-LHMUMKAB.js", imports: ["/build/_shared/chunk-O3G62MXX.js", "/build/_shared/chunk-6MFXEF3F.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/demos/about": { id: "routes/demos/about", parentId: "root", path: "demos/about", index: void 0, caseSensitive: void 0, module: "/build/routes/demos/about-6Q24GLTH.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/demos/about/index": { id: "routes/demos/about/index", parentId: "routes/demos/about", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/demos/about/index-DAKYQEOL.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/demos/about/whoa": { id: "routes/demos/about/whoa", parentId: "routes/demos/about", path: "whoa", index: void 0, caseSensitive: void 0, module: "/build/routes/demos/about/whoa-W626C2CT.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/demos/actions": { id: "routes/demos/actions", parentId: "root", path: "demos/actions", index: void 0, caseSensitive: void 0, module: "/build/routes/demos/actions-AOFKH255.js", imports: void 0, hasAction: !0, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/demos/correct": { id: "routes/demos/correct", parentId: "root", path: "demos/correct", index: void 0, caseSensitive: void 0, module: "/build/routes/demos/correct-T7AUJ7KU.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/demos/params": { id: "routes/demos/params", parentId: "root", path: "demos/params", index: void 0, caseSensitive: void 0, module: "/build/routes/demos/params-YSFRCOLI.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/demos/params/$id": { id: "routes/demos/params/$id", parentId: "routes/demos/params", path: ":id", index: void 0, caseSensitive: void 0, module: "/build/routes/demos/params/$id-ISMOY6AU.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !0, hasErrorBoundary: !0 }, "routes/demos/params/index": { id: "routes/demos/params/index", parentId: "routes/demos/params", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/demos/params/index-I5MTD3CT.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-P3OES67Y.js", imports: ["/build/_shared/chunk-6MFXEF3F.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/login": { id: "routes/login", parentId: "root", path: "login", index: void 0, caseSensitive: void 0, module: "/build/routes/login-VMUAWQHR.js", imports: ["/build/_shared/chunk-TP24YSQU.js", "/build/_shared/chunk-6MFXEF3F.js"], hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/test/cloudinary-upload": { id: "routes/test/cloudinary-upload", parentId: "root", path: "test/cloudinary-upload", index: void 0, caseSensitive: void 0, module: "/build/routes/test/cloudinary-upload-TGYKMKHL.js", imports: ["/build/_shared/chunk-WAQ6HORZ.js", "/build/_shared/chunk-5NRANRAL.js"], hasAction: !0, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/test/local-upload": { id: "routes/test/local-upload", parentId: "root", path: "test/local-upload", index: void 0, caseSensitive: void 0, module: "/build/routes/test/local-upload-3EI7M6ES.js", imports: ["/build/_shared/chunk-5NRANRAL.js"], hasAction: !0, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/test/utils.server": { id: "routes/test/utils.server", parentId: "root", path: "test/utils/server", index: void 0, caseSensitive: void 0, module: "/build/routes/test/utils.server-ZJBQHGMR.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-A2E9B9B7.js" };
 
 // server-entry-module:@remix-run/dev/server-build
 var assetsBuildDirectory = "public/build", publicPath = "/build/", entry = { module: entry_server_exports }, routes = {
@@ -2914,6 +3374,30 @@ var assetsBuildDirectory = "public/build", publicPath = "/build/", entry = { mod
     index: void 0,
     caseSensitive: void 0,
     module: root_exports
+  },
+  "routes/test/cloudinary-upload": {
+    id: "routes/test/cloudinary-upload",
+    parentId: "root",
+    path: "test/cloudinary-upload",
+    index: void 0,
+    caseSensitive: void 0,
+    module: cloudinary_upload_exports
+  },
+  "routes/test/local-upload": {
+    id: "routes/test/local-upload",
+    parentId: "root",
+    path: "test/local-upload",
+    index: void 0,
+    caseSensitive: void 0,
+    module: local_upload_exports
+  },
+  "routes/test/utils.server": {
+    id: "routes/test/utils.server",
+    parentId: "root",
+    path: "test/utils/server",
+    index: void 0,
+    caseSensitive: void 0,
+    module: utils_server_exports
   },
   "routes/auth/register": {
     id: "routes/auth/register",
@@ -3079,7 +3563,7 @@ var assetsBuildDirectory = "public/build", publicPath = "/build/", entry = { mod
  * @license MIT
  */
 /**
- * @remix-run/react v1.7.1
+ * @remix-run/react v1.7.6
  *
  * Copyright (c) Remix Software Inc.
  *

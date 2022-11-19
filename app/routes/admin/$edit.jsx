@@ -19,6 +19,7 @@ export let action = async ({ request }) => {
   let title = formData.get('title');
   let slug = formData.get('slug');
   let markdown = formData.get('markdown');
+  let imgSrc = formData.get('imgSrc');
   let id = formData.get('id');
   if (request.method == 'DELETE') {
     await deletePost(id);
@@ -28,12 +29,13 @@ export let action = async ({ request }) => {
   let errors = {};
   if (!title) errors.title = true;
   if (!slug) errors.slug = true;
+  if (!imgSrc) errors.imgSrc = true;
   if (!markdown) errors.markdown = true;
 
   if (Object.keys(errors).length) {
     return errors;
   }
-  await updatePost({ id, title, slug, markdown });
+  await updatePost({ id, title, slug, imgSrc, markdown });
   return redirect('/admin');
 };
 
@@ -50,6 +52,12 @@ export default function PostSlug() {
             name='id'
             defaultValue={post.id}
           ></input>
+        </p>
+        <p>
+          <label htmlFor=''>
+            IMAGE TEST: {errors?.imgSrc && <em>imgSrc test</em>}{' '}
+            <input type='text' name='title' defaultValue={post.imgSrc} />
+          </label>
         </p>
         <p>
           <label htmlFor=''>

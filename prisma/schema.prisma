@@ -12,4 +12,5 @@ model posts {
   markdown String
   slug     String
   title    String
+  imgSrc   String
 }

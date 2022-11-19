@@ -19,11 +19,12 @@ export async function getPost(slug) {
   let title = foundSlug.title;
   // using marked, we are going to convert the markdown into HTML so the blog post can render as entered in Markdown. 
   let html = marked(foundSlug.markdown)
+  let imgSrc = foundSlug.imgSrc
   // we need to cleanup our database connection
   prisma.$disconnect();
 
   // let's send back the slug, the title, and our markdown converted to html 
-  return { id, slug, title, html };
+  return { id, slug, title, imgSrc, html };
 }
 
 //when we edit the post we want to return different data including the ID field
@@ -42,11 +43,12 @@ export async function getPostEdit(slug) {
   let title = foundSlug.title;
   // since we are editing and not rendering we want to pull the original markdown value stored in the db
   let markdown = foundSlug.markdown
+  let imgSrc = foundSlug.imgSrc
   // we need to cleanup our database connection
   prisma.$disconnect();
 
   // let's send back the slug, the title, and our markdown converted to html 
-  return { id, slug, title, markdown };
+  return { id, slug, title, imgSrc, markdown };
 }
 
 export async function createPost(post) {
@@ -58,7 +60,8 @@ export async function createPost(post) {
     data: {
       title: post.title,
       slug: post.slug,
-      markdown: post.markdown
+      markdown: post.markdown,
+      imgSrc: post.imgSrc
     }
   })
 
@@ -80,7 +83,8 @@ export async function updatePost(post) {
     data: {
       title: post.title,
       slug: post.slug,
-      markdown: post.markdown
+      markdown: post.markdown,
+      imgSrc: post.imgSrc
     }
   })
 
